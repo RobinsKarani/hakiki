@@ -1,21 +1,44 @@
 # Architecture
 
-One local Node/TypeScript agent prepares a documentary procurement draft. React/Vite selects documents, provider/model and consent, then displays actual plans, tool inputs/outputs, findings, citations and drafts. No queue, database, graph engine or multi-agent coordinator.
+The browser selects documents and a model, then asks a local Node backend to run the review. One TypeScript agent chooses tools and prepares a draft. The React/Vite interface displays the saved plan, calls, findings, sources and report.
 
-![Architecture](docs/architecture.png)
+```mermaid
+flowchart TB
+    Human["Human reviewer"] <--> UI["React browser"]
+    UI <-->|"Loopback HTTP: consent, snapshots, decisions"| HTTP["Node backend"]
+    HTTP --> Host["Review host and bounded agent loop"]
+    Host <-->|"Plan, tool proposals and tool results"| Model["One selected model: hosted or local"]
+    Host --> Clients["Official MCP clients: stdio"]
+    Clients <--> FS["Third-party Filesystem MCP"]
+    Clients <--> Law["Public KenyaLaw MCP"]
+    Clients <--> Procurement["Own Procurement MCP: three tools"]
+    FS --> Inputs["Selected normalized inputs"]
+    Law <-->|"HTTPS retrieval"| Sources["Kenya Law sources"]
+    Procurement --> Draft["Requirements, findings and draft"]
+    HTTP --> Gate["Named human decision and draft hash check"]
+    Gate --> Decision["Local draft-review record"]
+```
 
-MIT `runtime.ts` executes a model planning turn followed by model-selected discovered tools in a bounded sequential loop. Official OpenAI/Google SDKs implement Responses, Gemini and compatible Chat Completions. Groq GPT-OSS 120B, OpenAI, Gemini and loopback compatible endpoints share one runtime. Local endpoints require a real tool-response probe. Chat compaction retains the actual plan, labelled successful evidence and recent complete tool exchanges. Host checks bound permissions, evidence, calls, context, tokens, time and cancellation. Tool errors permit model recovery; provider failures stop without paid retries. A valid draft freezes the workspace. Custom orchestration's acceptance as equivalent remains unconfirmed.
+The model chooses the tool order; the backend controls access. Download the [competition diagram](docs/architecture.png) ([SVG](docs/architecture.svg)), or see the [execution and state diagrams](docs/implementation.md) for timing and failure paths.
+
+[runAgent](src/runtime.ts) first asks the model for a plan without tools. It then executes model-selected calls one at a time, within run limits. [review](src/review.ts) connects the servers, restricts calls and requires the selected documents, a Public Procurement and Asset Disposal Act provision and Constitution Article 227 before drafting. Tool errors go back to the model for correction. Provider errors stop the run. Once a report is saved, the agent cannot change it.
+
+[Model adapters](src/models.ts) support OpenAI, Gemini, Groq and local endpoints. Only [compatible chat](src/chat-model.ts) shortens conversation history. A local endpoint must pass the [tool-response check](src/model-probe.ts) before a review.
 
 | MCP server | Ownership | Exposed tools |
 | --- | --- | --- |
-| Procurement | New, built here | `extract_tender_requirements`, `check_bid_completeness`, `write_review_report` |
-| KenyaLaw | Existing independent public upstream, pinned | `search_legislation`, `get_akn_document` |
-| Filesystem | Independent third-party community server | `read_text_file`, complete selected reads only |
+| Procurement | Built here | `extract_tender_requirements`, `check_bid_completeness`, `write_review_report` |
+| KenyaLaw | Independent public project, pinned version | `search_legislation`, `get_akn_document` |
+| Filesystem | Third-party server | `read_text_file`, selected files only |
 
-Official clients use three real Node stdio processes and discovered schemas. Observed KenyaLaw/Procurement use modern MCP 2026-07-28 per-request negotiation; Filesystem uses SDK legacy 2025-11-25 initialization. Annotations do not authorize actions; host restrictions do.
+The official MCP clients discover tool schemas and connect to three separate Node processes over stdio. The [protocol audit](docs/security-audit.md) records the versions tested. Tool annotations describe intent; the backend enforces permissions.
 
-Inputs are manifest-selected synthetic UTF-8/text-layer PDFs, or archived ICTA public excerpts with fictional suppliers. Notice URL/date/hash remain visible. KenyaLaw retrieves PPADA and Constitution Article 227. IDs, normalized lines, exact quotes, hashes and timestamps bind evidence to returned text, not legal interpretation, authenticity, ambiguous currency amounts or latest amendments. Financing rules and full historical criteria need human research.
+The supplied packages contain synthetic documents or an archived ICTA notice with fictional supplier files. Each source gets an ID and hash. Citations must match its normalized text lines exactly. These checks establish the source of a quotation; a human must still check its meaning, legal applicability and the full tender criteria.
 
-Loopback HTTP checks Host/Origin/session token. Untrusted content renders as text. Provider keys stay backend-only and are excluded from children. Selected text goes to the chosen hosted provider or local endpoint with consent. Child processes are not an OS sandbox; local user-editable JSON/JSONL is not a tamper-proof institutional ledger.
+The backend listens on loopback and checks the HTTP Host, Origin and session token. The browser displays untrusted content as text. Provider keys stay in the backend and are excluded from MCP child environments. Selected text goes to the chosen inference endpoint with consent. Child processes still have the user's OS permissions, and local records can be edited by that user.
 
-Human review is outside the model tool set. An unchanged draft, named reviewer and note are required for one approve/reject/revision record. No procurement award action exists; identity is self-reported. [Evaluations](EVALS.md) distinguish fixtures, real transports, live providers and failures; [runtime decision](docs/runtime-decision.md) records eligibility questions.
+Human review is handled by [recordHumanDecision](src/human-review.ts), outside the model's tools. It requires completed execution, an unchanged draft, a reviewer name and a note. The name is self-reported; approval concerns the draft only. See [workspace records](src/workspace.ts), [MCP contracts](docs/mcp-tools.md), [HTTP routes](src/http.ts) and [frontend](web/src/main.tsx) for the implementation.
+
+## Open Questions / Things to Verify
+
+Full local-model tasks and current legal applicability have not been verified. Competition acceptance of the custom runtime and hosted open weights also needs confirmation. [Evaluations](EVALS.md), [security audit](docs/security-audit.md) and [readiness](docs/readiness.md) record the remaining gaps.

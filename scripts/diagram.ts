@@ -30,12 +30,12 @@ const boxes: {
     height: 260,
     title: "Local backend · Node / TypeScript",
     lines: [
-      "Procurement agent: model proposes plan + actions",
-      "MIT orchestration: bounded sequential loop",
+      "Agent: model writes a plan and chooses tools",
+      "MIT TypeScript loop with execution limits",
       "Official provider SDKs; fixed model per run",
-      "Evidence validation, context / token / time limits",
-      "Local JSON state + timestamped JSONL trace",
-      "Loopback HTTP, origin + session mutation checks",
+      "Checks source quotes; limits context, tokens and time",
+      "Local JSON state and timestamped JSONL logs",
+      "Loopback HTTP with origin and session checks",
     ],
   },
   {
@@ -47,10 +47,10 @@ const boxes: {
     lines: [
       "Gemini 3.5 Flash Lite · reference run",
       "OpenAI Terra · completed reference run",
-      "Groq GPT-OSS 120B · open weights",
+      "Groq GPT-OSS 120B · task incomplete",
       "Hosted inference sends selected text out",
-      "Local: Ollama / LM Studio / llama.cpp",
-      "Loopback /v1 + actual tool-call probe",
+      "Local compatible endpoint: full task untested",
+      "Loopback /v1 with a tool-response check",
       "No provider key in browser / MCP",
     ],
     color: "#fff3df",
@@ -76,7 +76,7 @@ const boxes: {
       "extract_tender_requirements",
       "check_bid_completeness",
       "write_review_report",
-      "Exact source quotes + hashes; bounded local writes",
+      "Exact quotes and hashes; fixed report paths",
       "No model-accessible approval or award tool",
     ],
   },
@@ -116,8 +116,8 @@ const boxes: {
     title: "Local draft + evidence artifacts",
     lines: [
       "Markdown / JSON findings + legal source inventory",
-      "Original selected text + retrieved passages + hashes",
-      "Immutable draft; no award / ranking / disqualification",
+      "Normalized input + retrieved passages + hashes",
+      "Draft frozen to agent; human checks unchanged hash",
     ],
   },
   {
@@ -166,7 +166,7 @@ const arrow = (path: string) =>
 const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1570" viewBox="0 0 1600 1570"><defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10z" fill="#60786c"/></marker></defs><rect width="1600" height="1570" fill="#f7f8f3"/><g font-family="Arial, sans-serif" fill="#20362b"><text x="40" y="65" font-size="32" font-weight="bold">Kenya Procurement Review Agent</text><text x="40" y="100" font-size="18">Observed implementation · local draft preparation · 12 October 2026</text>
 ${arrow("M400 240 L490 240")}${arrow("M490 320 L400 320")}${arrow("M1110 235 L1200 235")}${arrow("M1200 310 L1110 310")}${arrow("M800 410 L800 500")}${arrow("M800 615 L800 720")}${arrow("M630 615 L630 665 L270 665 L270 720")}${arrow("M970 615 L970 665 L1330 665 L1330 720")}${arrow("M270 960 L270 1060")}${arrow("M800 960 L800 1060")}${arrow("M1330 1060 L1330 960")}${arrow("M270 1230 L270 1320")}
 ${boxes.map((box) => `<rect x="${box.x}" y="${box.y}" width="${box.width}" height="${box.height}" rx="14" fill="${box.color ?? "#ffffff"}" stroke="#c7d6ca" stroke-width="2"/><text x="${box.x + 22}" y="${box.y + 38}" font-size="20" font-weight="bold">${box.title}</text>${box.lines.map((line, index) => `<text x="${box.x + 22}" y="${box.y + 75 + index * 29}" font-size="16">${line.replaceAll("&", "&amp;").replaceAll("<", "&lt;")}</text>`).join("")}`).join("")}
-<text x="570" y="1370" font-size="18" font-weight="bold">Limits are part of the design</text><text x="570" y="1407" font-size="17">Quote matching establishes provenance, not interpretation or current legal validity.</text><text x="570" y="1444" font-size="17">No scheduled monitoring, generic automation, durable resume or automatic provider fallback.</text><text x="570" y="1481" font-size="17">Custom-orchestration / hosted-weight eligibility need organizer confirmation.</text><text x="40" y="1535" font-size="15">Arrows: actual request / response or local artifact flow. Model and official-law network services are external; other components run locally.</text></g></svg>`;
+<text x="570" y="1370" font-size="18" font-weight="bold">What still needs review</text><text x="570" y="1407" font-size="17">Exact quotes identify source text; meaning and legal applicability need human review.</text><text x="570" y="1444" font-size="17">No scheduling or run resume. The selected model stays fixed throughout a run.</text><text x="570" y="1481" font-size="17">Ask organizers to confirm the MIT runtime and hosted open-weight inference.</text><text x="40" y="1535" font-size="15">Arrows show requests, responses or file access. Selected inference and legal sources use HTTP; all other components run locally.</text></g></svg>`;
 await writeFile("docs/architecture.svg", svg);
 const browser = await chromium.launch({
   ...(process.platform === "win32" ? { channel: "msedge" } : {}),

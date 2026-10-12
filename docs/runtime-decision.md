@@ -1,21 +1,21 @@
 # Runtime decision
 
-Reviewed 12 October 2026. Use a direct, MIT-licensed TypeScript loop with the official provider and MCP SDKs. Replace the previous LangGraph graph entirely, including its dependency and graph-specific tests. This is a task-specific runtime, not a reusable framework.
+Reviewed 12 October 2026. The agent uses a small MIT-licensed TypeScript loop with official model and MCP SDKs. [runAgent](../src/runtime.ts) runs the loop; [review](../src/review.ts) controls tools and drafting. There is no LangGraph or LangChain dependency. See the [execution diagrams](implementation.md).
 
-The model proposes a visible plan and chooses discovered tools. The host executes only approved tools sequentially, validates arguments and source passages, records outputs and timestamps, returns recoverable tool errors to the same model, and stops at a validated draft or execution limit. Provider failures stop the run. A fresh run is required for revisions; no durable resume or automatic paid retry is claimed.
+The model writes a plan and chooses tools. The backend checks calls, executes them one at a time and logs results. Tool errors go back to the model; provider errors stop the run. The loop ends at a saved draft or a run limit. Revisions need a fresh run.
 
 | Option | Fit for this implementation | Trade-off |
 | --- | --- | --- |
-| Direct provider APIs | Existing adapters already preserve tool-call histories; simplest way to enforce this small workflow | We maintain provider differences and limits; custom-orchestration eligibility uncertain |
-| AI SDK 7 ToolLoopAgent | Mature stop conditions, context hooks and tool events | Replaces existing provider paths; third-party equivalence still not explicitly confirmed |
-| Pi agent core | Established stateful tool loop and abort/event practices | Requires MCP integration and another provider layer; more functionality than this task needs |
-| LangGraph | Established orchestration | Graph execution adds no value to this sequential workflow; removed |
+| Direct provider APIs | Already implemented; keeps this sequential review easy to trace | We maintain provider differences and limits; competition acceptance is uncertain |
+| AI SDK ToolLoopAgent | Provides loop controls, context hooks and tool events | Would replace existing provider calls; not installed or tested here |
+| Pi agent core | Provides a tool loop with state, cancellation and events | Would need MCP integration; not installed or tested here |
+| LangGraph | Provides graph-based orchestration | This workflow is sequential; not installed or tested here |
 
-Reviewed [AI SDK loop controls](https://ai-sdk.dev/docs/agents/loop-control) and [Pi loop implementation](https://github.com/badlogic/pi-mono/blob/main/packages/agent/src/agent-loop.ts). Relevant practices: preserve provider-native history, return tool errors as evidence, enforce limits between calls, check cancellation, and distinguish successful model completion from a valid task artifact. No source code copied.
+The [AI SDK loop controls](https://ai-sdk.dev/docs/agents/loop-control) and [Pi loop](https://github.com/badlogic/pi-mono/blob/main/packages/agent/src/agent-loop.ts) informed the design: retain tool history, return errors, check limits and cancellation, and validate the final report. No source code was copied.
 
 ## Eligibility: NOT CONFIRMED
 
-The [Governance brief](https://agentic-africa-challenge.lovable.app/tracks/governance) requires open-source orchestration and lists libraries followed by “or equivalent.” It does not expressly approve or forbid a team's own MIT-licensed orchestration. Publishing our loop does not establish eligibility. If organizers require a third-party loop, AI SDK is the lightest suitable alternative reviewed here; domain validation and MCP transport boundaries should remain unchanged.
+The [Governance brief](https://agentic-africa-challenge.lovable.app/tracks/governance) requires open-source orchestration and lists libraries followed by “or equivalent.” It does not explicitly confirm a team's own MIT runtime. If a third-party loop is mandatory, AI SDK is a candidate to test while keeping the procurement checks and MCP connections.
 
 Question prepared for the public community channel (not sent):
 
@@ -23,4 +23,8 @@ Question prepared for the public community channel (not sent):
 
 ## Current provider choice
 
-One runtime now supports Groq GPT-OSS 120B via the existing OpenAI-compatible Chat Completions SDK, OpenAI Responses, Gemini and a configurable loopback compatible endpoint. No orchestration dependency added. Hosted open weights are authorized for implementation now; organizer confirmation is deferred by the owner, not assumed. Local endpoints are optional and must pass a genuine structured tool-response probe. Actual Ollama/LM Studio reviews remain unverified.
+The same runtime supports Groq GPT-OSS 120B, OpenAI Responses, Gemini and local OpenAI-compatible endpoints. Users choose a provider and model; there is no automatic fallback. Local endpoints must pass a tool-response check. OpenAI and Gemini completed reference tasks; a full hosted open-weight task has not succeeded, and installed local-model tasks remain untested.
+
+## Open Questions / Things to Verify
+
+Ask the organizers about the custom runtime, hosted open weights and submission dates. Any change to a third-party loop needs implementation and tests before it can be described as supported. [EVALS](../EVALS.md) records completed and failed tasks.

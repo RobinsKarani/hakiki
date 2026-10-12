@@ -1,20 +1,22 @@
 # Kenya Procurement Review Agent
 
-A local TypeScript agent prepares an evidence-backed **documentary review draft** for a Kenyan procurement officer. The selected model plans, chooses MCP tools, reads selected files, retrieves actual Kenyan law, checks evidence and writes a draft. A separate named human reviews it. The agent cannot award, rank or disqualify bidders.
+A TypeScript agent checks selected tender and supplier documents, retrieves Kenyan legislation and writes a draft report with source quotations. The model writes a plan and chooses MCP tools across several steps. A human then reviews the draft. The agent cannot award, rank or disqualify bidders.
 
-Submission candidate with material limits. Genuine Terra and Gemini reviews completed; an earlier Gemini draft failed the expected classification test. See [evaluations](EVALS.md), [readiness](docs/readiness.md), [architecture](ARCHITECTURE.md) and [security audit](docs/security-audit.md). No procurement-officer partnership or measured time saving is claimed.
+OpenAI and Gemini have completed the synthetic review. One earlier Gemini report gave incorrect findings. **No open-weight model has completed a full task yet**, and no procurement officer has reviewed the output. See [results](EVALS.md) and [submission gaps](docs/readiness.md).
 
 ## Run locally
 
-Requires **Node 24+**, **Bun 1.4+**, Git and GitHub/npm/source network access. Windows is tested; other operating systems are not verified. Clone and enter this repository, then:
+Requires **Node 24+**, **Bun 1.4+**, Git and internet access for installation and legal retrieval. Tested on Windows; other operating systems have not been tested.
 
 ```sh
+git clone https://github.com/RobinsKarani/procurement-review-agent.git
+cd procurement-review-agent
 bun run launch
 ```
 
-This installs locked dependencies, clones/builds [public KenyaLaw MCP](https://github.com/Verantu-Labs/kenya-law-mcp) at `70ab4d8f28b4a0002b5bd8680c8eb2019006aae2`, builds the app and starts **http://127.0.0.1:4317**. No model request runs during setup. Setup refuses to overwrite an upstream checkout differing from the pin. Subsequent starts: `bun run start`. Setup alone: `bun run setup`. Stop with Ctrl+C.
+`launch` installs locked dependencies, builds the app and [public KenyaLaw MCP](https://github.com/Verantu-Labs/kenya-law-mcp), then starts **http://127.0.0.1:4317**. Setup makes no model requests. It uses KenyaLaw commit `70ab4d8f28b4a0002b5bd8680c8eb2019006aae2` and refuses to overwrite a modified or different checkout. Use `bun run start` for later starts, `bun run setup` to install/build only, and Ctrl+C to stop.
 
-Copy `.env.example` to ignored `.env`, configure the selected backend key and restart. Never publish or paste keys. Primary competition configuration:
+If `.env` does not exist, copy [`.env.example`](.env.example) to `.env` in the repository root. Add the key for your chosen provider and restart. `.env` is ignored by Git; keys stay in the backend. For example:
 
 ```dotenv
 GROQ_API_KEY=your-local-key
@@ -22,29 +24,29 @@ REVIEW_PROVIDER=groq
 REVIEW_MODEL=openai/gpt-oss-120b
 ```
 
-| Manual provider | Model/setup | Transmission |
+| Provider | Configuration | Where inference runs |
 | --- | --- | --- |
 | Groq | `openai/gpt-oss-120b`; `GROQ_API_KEY` | Hosted open-weight inference |
-| OpenAI | e.g. `gpt-5.6-terra`; `OPENAI_API_KEY` | Hosted proprietary inference |
-| Gemini | e.g. `gemini-3.5-flash-lite`; `GEMINI_API_KEY` | Hosted proprietary inference |
-| Local compatible endpoint | Your tool-capable model ID, HTTP loopback `/v1`, optional `LOCAL_MODEL_API_KEY` | Your local inference server |
+| OpenAI | `gpt-5.6-terra`; `OPENAI_API_KEY` | OpenAI |
+| Gemini | `gemini-3.5-flash-lite`; `GEMINI_API_KEY` | Google |
+| Local endpoint | Tool-calling model ID, local HTTP `/v1` URL, optional `LOCAL_MODEL_API_KEY` | Your inference server |
 
-Manual browser selection; one fixed model per run, no automatic fallback. All providers use the same runtime, MCP tools, evidence validation and human gate. Groq success responses pace subsequent requests using token-reset headers; quota failures stop without automatic retries. The observed 8,000 TPM account limit makes Groq much slower than the Gemini demo. Ordinary reviews have four minutes; explicit open-weight evaluation allows fifteen minutes.
+Choose the provider and model in the browser. They stay fixed during the run. Every provider uses the same agent and tools. Groq requests wait according to token-reset headers; a quota error stops the run. The tested account's 8,000-tokens-per-minute limit made Groq runs slow. Ordinary reviews have a four-minute deadline; the separate open-weight evaluation allows fifteen minutes.
 
-Local examples: [Ollama](https://docs.ollama.com/api/openai-compatibility) at `http://127.0.0.1:11434/v1`, [LM Studio](https://lmstudio.ai/docs/developer/openai-compat) at `http://127.0.0.1:1234/v1`. Endpoints must be literal HTTP loopback addresses without credentials/query/redirects. **Test tool calling** performs a real structured call and unpredictable response-consumption probe. The backend also probes before every local review. Actual Ollama/LM Studio/llama.cpp procurement reviews are **not verified**. A compatible endpoint does not prove tool competence or that local software does not forward data elsewhere.
+For local inference, enter an OpenAI-compatible URL such as [Ollama](https://docs.ollama.com/api/openai-compatibility)'s `http://127.0.0.1:11434/v1` or [LM Studio](https://lmstudio.ai/docs/developer/openai-compat)'s `http://127.0.0.1:1234/v1`, plus a model ID. Only loopback HTTP addresses are allowed; credentials in URLs, query parameters and redirects are rejected. **Test tool calling** checks that the model calls a tool and uses its response. This check also runs before each local review. Full tasks on installed Ollama, LM Studio or llama.cpp models remain **untested**; the check does not prove procurement accuracy or prevent serving software from forwarding data.
 
-`KENYALAW_MCP_ENTRY` optionally points to another **public** checkout's built `dist/src/index.js` with installed dependencies. Leave empty for setup's pinned `.external/kenya-law-mcp`. It is a local executable path, not a key or hosted URL. Integration uses stdio, not internal handler imports.
+Leave `KENYALAW_MCP_ENTRY` empty to use setup's pinned `.external/kenya-law-mcp`. To use an existing public KenyaLaw checkout instead, set it to that checkout's built `dist/src/index.js`, with dependencies installed. This is a local executable path. The agent connects through MCP stdio.
 
-Select package/documents and consent to transmission and charges. **Start genuine review**, inspect the actual plan, timestamped tool inputs/outputs/errors, findings, source passages and draft. Approval/rejection/revision requires a named reviewer and note. These decisions concern the draft only. Previous runs are clearly stored records.
+Select a package and its documents, choose a model, and consent to sending text and any provider charges. Start the review. The browser shows the run's plan, tool calls, errors, findings, source passages and draft. Approving, rejecting or requesting a revision requires a reviewer name and note. These decisions concern the draft only. Opening a previous run shows saved activity.
 
 ## Data and scope
 
-- **Fictional Amani:** seven synthetic documents, two suppliers, four requirements, missing tax evidence, contradictory warranty passages, undefined support criteria and a malicious embedded instruction. The evaluated fast Gemini scenario.
-- **Archived ICT Authority:** real public notice excerpt **KE-ICTA-395947-GO-RFB**, closed **21 August 2024**, plus three fictional supplier files. [Original notice](https://cms.icta.go.ke/sites/default/files/2024-07/Advert%20-%20ICTA-Supply%20%26%20Delivery%20of%20Laptops%20and%20Tablets---25%20x%203_0.pdf), retrieval time and original PDF hash are recorded. Personal contacts are omitted. The malformed printed `1,200,00.00` amount is preserved as ambiguous. Full bidding criteria and World Bank financing-rule applicability are not verified. Fictional suppliers never participated.
+- **Fictional Amani:** seven documents, two suppliers and four requirements. Includes missing tax evidence, conflicting warranties, unclear support criteria and a prompt-injection attempt. Use this for the evaluated short demo.
+- **Archived ICT Authority:** an excerpt from notice **KE-ICTA-395947-GO-RFB**, closed **21 August 2024**, with three fictional supplier files. The [original notice](https://cms.icta.go.ke/sites/default/files/2024-07/Advert%20-%20ICTA-Supply%20%26%20Delivery%20of%20Laptops%20and%20Tablets---25%20x%203_0.pdf), retrieval time and PDF hash are recorded; personal contacts are removed. The printed `1,200,00.00` amount is kept as unclear. Full bidding criteria and applicable World Bank financing rules have not been checked. The fictional suppliers did not participate in this tender.
 
-This covers **documentary review**, not an OCDS award-history pipeline or access to real bids. No active tender, confidential bid or personal details should be supplied. No authenticity, receipts, registry checks, scoring or compliance certification.
+The project reviews supplied documents. It has no access to real bids or an award-history dataset. Use only synthetic or permitted public data: no active tenders, confidential bids or personal details. Findings describe the supplied evidence; they do not certify compliance or document authenticity.
 
-Custom synthetic scenarios use the [manifest](fixtures/scenario.json) schema and sibling files:
+For a custom synthetic package, follow the [scenario manifest](fixtures/scenario.json) and place its documents alongside it. The CLI uses the same agent as the browser:
 
 ```sh
 bun run review doctor
@@ -54,13 +56,11 @@ bun run review report --run <run-uuid>
 bun run review request_revision --run <run-uuid> --reviewer "Your name" --note "Required revision"
 ```
 
-Inputs: UTF-8 TXT/Markdown and text-layer PDF; <=8 MiB/file, <=20 PDF pages, <=60,000 extracted characters/document, <=180,000/run and twelve files. Blank PDFs rejected; no OCR or DOCX. PDF layout requires human inspection. Line references identify normalized text, not original pages.
+Supported files are UTF-8 TXT/Markdown and PDFs with extractable text. Limits: 8 MiB per file, 20 PDF pages, 60,000 characters per document, 180,000 per run and twelve files. Blank PDFs are rejected. OCR and DOCX are unsupported. Check PDF layout manually; citations refer to normalized text lines, not PDF pages.
 
-A separate four-file tax/warranty fixture (`fixtures/minimal-scenario.json`) is available through the CLI for a smaller complete task. It is distinct from the harder Amani and archived tasks; success does not establish reliability on those cases.
+A smaller four-file tax/warranty task is available through the CLI at [fixtures/minimal-scenario.json](fixtures/minimal-scenario.json). Results on it do not establish accuracy on the other packages.
 
-The host exposes focused section/article retrieval with bare identifiers only. Verified URI hints are starting points, not legal evidence. Legal responses over 12,000 characters remain in the trace but are excluded from model context/citations; no full-document fallback is exposed.
-
-Limits: twenty model turns, forty tool calls, sixty-second individual requests, 240,000 history characters and 160,000 cumulative input/output tokens checked **between turns**. One response can overshoot the remaining token budget; no hard monetary cap. No durable resume, scheduling, monitoring or generic workflow automation. Revisions require fresh runs.
+The backend requires all selected files to be read, plus retrieval of a Public Procurement and Asset Disposal Act provision and Constitution Article 227, before drafting. Legal lookup is limited to individual sections/articles; responses over 12,000 characters are kept in the trace but excluded from model context and citations. A starting URI or search result is not citation evidence.
 
 ## Verification and costs
 
@@ -72,25 +72,37 @@ bun run test:legal       # explicit LIVE KenyaLaw/source network test
 bun run eval:paid        # explicit selected-provider review; sends text externally
 bun run eval:open-weights --send-to-provider
 bun run eval:open-weights --scenario fixtures/archived-icta/scenario.json --send-to-provider
-bun run eval:recorded --run <existing-Amani-run-uuid>  # no new inference
+bun run eval:recorded --run <existing-run-uuid> --case amani  # no new inference
+bun run eval:suite --send-to-provider  # eight tasks; explicit paid/live evaluation
 ```
 
-Fixture law and scripted models are labelled; they verify host behavior, not external reliability. Live law and paid tests are excluded from `verify`. No GitHub Actions workflow is added. Local verification is the primary loop; paid evaluations must never run automatically on PRs. Deployment success does not establish test correctness.
+`verify` runs locally without live legal retrieval or paid inference. Some tests use fixture law or scripted models; these test backend behavior, not provider accuracy. Live commands are opt-in. There are no GitHub Actions workflows or automatic paid PR evaluations.
 
-Ignored `.runs/<uuid>` stores state, actual `trace.jsonl`, normalized inputs, retrieved law, generated Markdown/JSON and any review decision. Failed/cancelled runs remain incomplete. Exact quote/hash checks establish provenance, **not** interpretation, authenticity, latest amendments or complete criteria.
+The [eight synthetic evaluation tasks](fixtures/evaluations/README.md) have separate expected results used only by the saved-run scorer. The hosted suite keeps one provider and runtime, records failures, and stops after a provider rejection. It does not judge legal interpretation or certify compliance.
 
-Latest completed Gemini reference: 77,527 input / 6,546 output tokens, 61.7 seconds, 8/8 expected documentary classifications, estimated **$0.040**. Its unedited local recording is 76.2 seconds. Terra reference: approximately **$0.262**. The latest smaller GPT-OSS task reached four intermediate findings, then HTTP 429 stopped it before legal retrieval and drafting; no full open-weight task has succeeded. [Groq GPT-OSS 120B](https://console.groq.com/docs/model/openai/gpt-oss-120b) lists $0.15 input/$0.60 output per million tokens. These are text-rate estimates, not invoices; caching/account billing differ. Provider policies govern transmitted data; OpenAI `store:false` and local artifacts do not guarantee zero retention or on-device inference.
+The latest recorded Gemini run took 49.5 seconds and matched eight expected classifications with both authorities cited: 62,152 input tokens, 4,582 output tokens, about **$0.030** at published text rates. Its unedited local recording lasts 63.56 seconds. The eight-task suite returned **4 PASS / 4 FAIL**: classifications matched, but four drafts lacked citation coverage. The OpenAI Terra reference cost about **$0.262**. These are estimates, not invoices. [EVALS.md](EVALS.md) records the failures, including GPT-OSS HTTP 400/429 attempts without drafts.
+
+## Privacy and limits
+
+Runs are stored in ignored `.runs/<uuid>` directories: normalized inputs, retrieved law, state, timestamped tool logs, Markdown/JSON reports and review decisions. Logs contain document text. Keep them private.
+
+Hosted inference sends selected text to the chosen provider. Keys stay in the backend, but provider retention and processing-location policies still apply; OpenAI `store: false` does not guarantee zero retention. Local serving software may also forward requests.
+
+The agent is limited to 20 model turns, 40 proposed tool calls, 60-second individual model/tool requests, 240,000 context characters and 160,000 cumulative tokens checked **between turns**. A response can exceed the remaining token budget; there is no hard cost cap. Failed/cancelled runs cannot be resumed; revisions need a fresh run.
+
+Quote and hash checks show where cited words came from. They do not verify legal interpretation, authenticity, current amendments or complete tender criteria. Reviewer names are self-reported. Separate MCP processes and directory restrictions are not an OS sandbox. Read the [security audit](docs/security-audit.md) before extending permissions.
 
 ## Modify and inspect
 
-- `src/runtime.ts`: bounded model-driven loop.
-- `src/models.ts`, `src/chat-model.ts`: provider histories and compatible chat.
-- `src/mcp.ts`: real discovery, transport calls, traces and sources.
-- `src/procurement.ts`, `src/procurement-server.ts`: three domain tools and draft writes.
-- `src/workspace.ts`, `src/human-review.ts`: bounded files, hashes and review gate.
-- `src/http.ts`, `web/src/`: loopback backend and actual execution interface.
-- [AGENTS.md](AGENTS.md), [MCP contracts](docs/mcp-tools.md), [runtime decision](docs/runtime-decision.md).
+- [runtime.ts](src/runtime.ts): planning turn and tool loop.
+- [models.ts](src/models.ts), [chat-model.ts](src/chat-model.ts): provider calls and history.
+- [mcp.ts](src/mcp.ts): tool discovery, transport, logs and legal sources.
+- [procurement.ts](src/procurement.ts), [procurement-server.ts](src/procurement-server.ts): three tools and report creation.
+- [workspace.ts](src/workspace.ts), [human-review.ts](src/human-review.ts): files, evidence and draft decisions.
+- [http.ts](src/http.ts), [web/src/main.tsx](web/src/main.tsx): local backend and browser.
 
-Borrowed Filesystem MCP provides maintained directory restrictions instead of duplicated file plumbing. Three servers run as separate Node stdio processes with minimal environments. This is a trusted local app: filtering is **not** an OS sandbox; reviewer names are self-reported, not institutional authentication.
+See [architecture](ARCHITECTURE.md), [execution and state diagrams](docs/implementation.md), [MCP tool contracts](docs/mcp-tools.md), [runtime choice](docs/runtime-decision.md) and [AGENTS.md](AGENTS.md) for development guidance. Filesystem MCP is borrowed for its maintained file-reading and directory restrictions. KenyaLaw remains an independent public dependency.
 
-[MIT](LICENSE), an [OSI-approved license](https://opensource.org/license/mit). AI-assisted development is disclosed. Custom MIT orchestration and hosted-weight eligibility need organizer confirmation. No private product code or credentials are included. Commands do not deploy, upload video or submit the entry.
+## Open Questions / Things to Verify
+
+The project uses the [MIT license](LICENSE), an [OSI-approved license](https://opensource.org/license/mit), and was developed with AI assistance. Organizer acceptance of the custom runtime, hosted open-weight inference and eligible build dates remains unconfirmed. A full open-weight task, installed local-model review and procurement-officer feedback are still outstanding. See [readiness](docs/readiness.md) for submission steps. Nothing here deploys the app, uploads the video or submits the entry.

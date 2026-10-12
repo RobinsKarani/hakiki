@@ -1,27 +1,31 @@
 # Application draft
 
-Drafts address the brief's topics; exact private form wording has not been verified. Nothing submitted.
+These drafts address the brief's topics. The application form's exact questions have not been checked. Nothing has been submitted.
 
 ## Project description
 
-Kenya Procurement Review Agent prepares a documentary review file for a procurement officer reviewing ICT equipment submissions. It fits the Governance track's tender-preparation workflow. The intended user is an officer in a Kenyan public body's procurement unit; we have not yet interviewed an officer or validated an institutional partnership.
+Kenya Procurement Review Agent prepares a draft document-checking report for an officer reviewing ICT equipment submissions in a Kenyan public procurement unit. It fits the Governance track. We have not yet interviewed a procurement officer or tested it with an institution.
 
-The user selects a synthetic package or an archived public notice with explicitly fictional supplier documents. A model generates a visible plan, chooses tools, reads selected files through an independent Filesystem MCP server, and retrieves Kenyan legislation through public KenyaLaw MCP. A new Procurement MCP server exposes three tools: extract requirements with exact quotations, check documentary completeness, and write a review draft. The host validates source lines, hashes, supplier attribution and the complete findings matrix. It returns tool errors for model recovery and enforces execution limits.
+The user selects a synthetic package or an archived notice with fictional supplier documents. The model writes a visible plan, chooses tools, reads files through third-party Filesystem MCP and retrieves legislation through public KenyaLaw MCP. Our Procurement MCP server has three tools: record requirements with quotations, check supplied evidence and write a draft. The backend checks source lines, hashes, supplier ownership and whether every requirement has a finding. Tool errors go back to the model for correction; calls, tokens and time are limited.
 
-The local browser shows actual inputs, outputs, timestamps, legal passages, findings and the generated report. Findings distinguish supplied, missing, conflicting and inconclusive evidence. They do not establish compliance. Contradictory warranty statements and undefined support thresholds illustrate why a human must inspect both evidence and interpretation.
+The local browser shows the run's inputs, outputs, timestamps, legal passages, findings and report. Findings distinguish present, missing, conflicting and inconclusive evidence. A contradictory warranty or unclear support threshold stays visible for human review. These classifications do not certify compliance.
 
-One MIT TypeScript runtime supports manually selected Groq, OpenAI, Gemini and compatible loopback endpoints. Hosted GPT-OSS 120B is the open-weight competition candidate. Keys remain backend-only; selected text is transmitted with explicit consent. No automatic model switching occurs.
+One MIT TypeScript runtime supports Groq, OpenAI, Gemini and local compatible endpoints. The user chooses one model per run. Keys stay in the backend, and sending selected text requires consent. OpenAI and Gemini have completed tasks; hosted GPT-OSS attempts remain incomplete.
 
-A named human records approval, rejection or revision of an unchanged draft. The model cannot approve, award, rank or disqualify suppliers. The project includes reproducible local checks, actual failed provider/semantic evaluations and known limits: incomplete historical criteria, unverified financing-rule applicability, quotas, no document authenticity checks and no measured institutional time saving. It is a draft-preparation prototype, not an autonomous procurement authority.
+A human records approval, rejection or a revision request against the unchanged draft. Names are self-reported. The model cannot approve, award, rank or disqualify suppliers. Eight distinct live tasks returned four passes and four citation-coverage failures despite correct classifications. Local tests and failed evaluations are documented. Remaining limits include incomplete historical criteria, unverified financing rules, provider quotas and no authenticity checks. No institutional time saving has been measured, and competition eligibility still needs confirmation.
 
 ## Agentic behavior
 
-An actual planning turn precedes model-selected tools; order is not hardcoded. The model performs multi-step reads, extraction, legal discovery, checks and drafting. Completed reference traces demonstrate recovery from failed calls/quotation errors. The host controls permissions, state and budgets. No scheduling, monitoring, multi-agent or durable workflow claim.
+The first model turn writes a plan; later turns select tools for reads, requirements, legal lookup, checks and drafting. Tool order is chosen by the model. Completed run logs show corrected calls after lookup and quotation errors. The backend controls permissions and limits. The plan is stored text, not an executable checklist. There is no scheduling, monitoring or run resume.
 
 ## MCP architecture
 
-Three official clients connect over real stdio. New Procurement MCP has three domain contracts and actual report creation. KenyaLaw is a pinned independent public upstream. Filesystem is borrowed for maintained directory-restricted reads. Only selected discovered tools are exposed; upstream internal handlers are not imported. The official SDK handles modern/legacy negotiation. Actual inputs, outputs, durations and errors are logged locally.
+Official MCP clients connect over stdio to three Node processes. Procurement MCP is built here; KenyaLaw is a pinned public dependency. Filesystem MCP is borrowed for file reading and directory restrictions. The backend exposes selected discovered tools rather than importing server handlers. The SDK handles protocol negotiation. Requests, responses, durations and errors are logged locally. See [tool contracts](mcp-tools.md).
 
 ## Evidence and orchestration
 
-Source IDs, normalized line ranges, exact quotes, hashes and timestamps bind findings to evidence. They do not certify interpretation or authenticity. MIT orchestration is task-specific. Whether it satisfies the equivalent clause, and whether hosted open weights meet the intended rule, remains unconfirmed. See EVALS for genuine full-task outcomes; failed attempts are not successful model evaluations.
+Findings cite source IDs, text lines, exact quotes and hashes. These identify the evidence without proving interpretation or authenticity. The MIT loop is built for this review task. Organizer acceptance of it and hosted open weights remains unconfirmed. [EVALS](../EVALS.md) records actual task outcomes.
+
+## Open Questions / Things to Verify
+
+Check the form's wording, confirm eligibility and obtain officer feedback before submitting. Update these answers only after the relevant feature or evaluation works.

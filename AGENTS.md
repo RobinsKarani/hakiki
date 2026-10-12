@@ -24,5 +24,6 @@ This is an independent public procurement-review project. Read [README](README.m
 - Run `bun run verify` for deterministic tests, type checking, lint/format and builds. Network law tests and paid evaluations are separate opt-in commands; never put them in automatic CI.
 - Label tests using scripted models or fixture law accurately. A mock passing does not verify a provider, external source or live integration.
 - Review all public candidate files and scan for secrets before delivery. Keep README, schema docs, architecture and actual evaluation results consistent with code.
+- Write docs in plain language. Explain concrete behavior, setup and limits; avoid hype, inflated claims and repeated caveats. Add diagrams only when they help, and check them against code.
 - Work on the existing feature branch; never commit to main, merge, push, publish, deploy or submit the competition entry without explicit instruction. Do not enable workflows or change repository protections automatically.
 - Report changes, checks actually run, unavailable checks and remaining failures. Competition eligibility must be confirmed from rules or organizers, never inferred as guaranteed.

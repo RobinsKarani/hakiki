@@ -1,0 +1,26 @@
+{
+  "run_id": "3f6dd849-1dda-4cc4-8c1c-a3c534210954",
+  "scenario": "minimal",
+  "provider": "groq",
+  "model": "openai/gpt-oss-120b",
+  "execution": "failed",
+  "status": "collecting",
+  "elapsed_ms": 50984,
+  "usage": {
+    "input_tokens": 5190,
+    "output_tokens": 558
+  },
+  "model_turns": 2,
+  "actual_tool_calls": 1,
+  "requirements": 0,
+  "findings": 0,
+  "legal_source_count": 0,
+  "report_sha256": null,
+  "provider_failure": {
+    "status": 429,
+    "category": "quota_or_rate_limit",
+    "quota_limit": null,
+    "retry_after_seconds": null
+  },
+  "change": "Forward-slash selected paths; HTTP 429 before extraction/legal retrieval/report. The full open-weight task remains incomplete."
+}

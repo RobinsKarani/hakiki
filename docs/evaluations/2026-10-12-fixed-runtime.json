@@ -1,0 +1,567 @@
+{
+  "created_at": "2026-10-12T20:05:14.291Z",
+  "git_head": "b7c96d3c08fc8e9b4f60812484e7ebeaa1a47b34",
+  "runtime_sha256": "d31410f7baa59ddbf15a3872c91ac2feed61505709f68b121687634e7794c2c9",
+  "provider": "gemini",
+  "model": "gemini-3.5-flash-lite",
+  "results": [
+    {
+      "run_id": "440f3128-5e07-4359-aa52-96431310e3ac",
+      "case_id": "amani",
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "fixture_hashes_match": true,
+      "execution": "completed",
+      "elapsed_ms": 57113,
+      "usage": {
+        "input_tokens": 57539,
+        "output_tokens": 4488
+      },
+      "actual_mcp_servers": [
+        "filesystem",
+        "kenyalaw",
+        "procurement"
+      ],
+      "model_turns": 8,
+      "tool_calls": 16,
+      "recoverable_errors": 3,
+      "provider_failure": null,
+      "report_sha256": "c92aab296e62e3b317592b239911ed20364601eadd7f034c6897d2fe7578acc6",
+      "report_hash_matches": true,
+      "report_matrix_matches": true,
+      "source_quotes_valid": true,
+      "both_authorities_cited": false,
+      "human_review_pending": true,
+      "requirements_complete": true,
+      "matrix_passed": 8,
+      "cases": [
+        {
+          "task": "alpha/R1",
+          "expected": "present",
+          "actual": [
+            "present"
+          ],
+          "pass": true
+        },
+        {
+          "task": "alpha/R2",
+          "expected": "present",
+          "actual": [
+            "present"
+          ],
+          "pass": true
+        },
+        {
+          "task": "alpha/R3",
+          "expected": "present",
+          "actual": [
+            "present"
+          ],
+          "pass": true
+        },
+        {
+          "task": "alpha/R4",
+          "expected": "inconclusive",
+          "actual": [
+            "inconclusive"
+          ],
+          "pass": true
+        },
+        {
+          "task": "beta/R1",
+          "expected": "present",
+          "actual": [
+            "present"
+          ],
+          "pass": true
+        },
+        {
+          "task": "beta/R2",
+          "expected": "missing",
+          "actual": [
+            "missing"
+          ],
+          "pass": true
+        },
+        {
+          "task": "beta/R3",
+          "expected": "conflicting",
+          "actual": [
+            "conflicting"
+          ],
+          "pass": true
+        },
+        {
+          "task": "beta/R4",
+          "expected": "inconclusive",
+          "actual": [
+            "inconclusive"
+          ],
+          "pass": true
+        }
+      ],
+      "pass": false,
+      "limit": "Scores extraction categories, documentary classifications, source integrity and actual integrations. Legal relevance, authenticity and model interpretations require human review; present does not mean compliant."
+    },
+    {
+      "run_id": "8ce925f5-617e-4d38-b9e6-f6a4d9c5a0b9",
+      "case_id": "minimal",
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "fixture_hashes_match": true,
+      "execution": "completed",
+      "elapsed_ms": 45959,
+      "usage": {
+        "input_tokens": 47400,
+        "output_tokens": 3424
+      },
+      "actual_mcp_servers": [
+        "filesystem",
+        "kenyalaw",
+        "procurement"
+      ],
+      "model_turns": 8,
+      "tool_calls": 14,
+      "recoverable_errors": 3,
+      "provider_failure": null,
+      "report_sha256": "4fbe98b7434cf8ec72a08d4d557a254ad5a0cbacbaab072152a168c486be77d6",
+      "report_hash_matches": true,
+      "report_matrix_matches": true,
+      "source_quotes_valid": true,
+      "both_authorities_cited": false,
+      "human_review_pending": true,
+      "requirements_complete": true,
+      "matrix_passed": 4,
+      "cases": [
+        {
+          "task": "alpha/R1",
+          "expected": "present",
+          "actual": [
+            "present"
+          ],
+          "pass": true
+        },
+        {
+          "task": "alpha/R2",
+          "expected": "present",
+          "actual": [
+            "present"
+          ],
+          "pass": true
+        },
+        {
+          "task": "beta/R1",
+          "expected": "missing",
+          "actual": [
+            "missing"
+          ],
+          "pass": true
+        },
+        {
+          "task": "beta/R2",
+          "expected": "present",
+          "actual": [
+            "present"
+          ],
+          "pass": true
+        }
+      ],
+      "pass": false,
+      "limit": "Scores extraction categories, documentary classifications, source integrity and actual integrations. Legal relevance, authenticity and model interpretations require human review; present does not mean compliant."
+    },
+    {
+      "run_id": "ede305ae-0464-4e51-a34c-4829451c930e",
+      "case_id": "missing-tax",
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "fixture_hashes_match": true,
+      "execution": "completed",
+      "elapsed_ms": 58808,
+      "usage": {
+        "input_tokens": 51187,
+        "output_tokens": 2482
+      },
+      "actual_mcp_servers": [
+        "filesystem",
+        "kenyalaw",
+        "procurement"
+      ],
+      "model_turns": 11,
+      "tool_calls": 12,
+      "recoverable_errors": 4,
+      "provider_failure": null,
+      "report_sha256": "9600b020b7afd1eff72e01bfb0b375e7746f29578867de6c19a650a479cabf7f",
+      "report_hash_matches": true,
+      "report_matrix_matches": true,
+      "source_quotes_valid": true,
+      "both_authorities_cited": true,
+      "human_review_pending": true,
+      "requirements_complete": true,
+      "matrix_passed": 2,
+      "cases": [
+        {
+          "task": "alpha/R1",
+          "expected": "missing",
+          "actual": [
+            "missing"
+          ],
+          "pass": true
+        },
+        {
+          "task": "alpha/R2",
+          "expected": "present",
+          "actual": [
+            "present"
+          ],
+          "pass": true
+        }
+      ],
+      "pass": true,
+      "limit": "Scores extraction categories, documentary classifications, source integrity and actual integrations. Legal relevance, authenticity and model interpretations require human review; present does not mean compliant."
+    },
+    {
+      "run_id": "b199c386-2a0e-4276-9be1-47f595c4cd0d",
+      "case_id": "missing-offer",
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "fixture_hashes_match": true,
+      "execution": "completed",
+      "elapsed_ms": 54450,
+      "usage": {
+        "input_tokens": 45221,
+        "output_tokens": 2345
+      },
+      "actual_mcp_servers": [
+        "filesystem",
+        "kenyalaw",
+        "procurement"
+      ],
+      "model_turns": 10,
+      "tool_calls": 11,
+      "recoverable_errors": 3,
+      "provider_failure": null,
+      "report_sha256": "2882cf0173d2d15f5a0f60c9aaa7c849df8f04de5cfcb95d96cd76495c4c01fd",
+      "report_hash_matches": true,
+      "report_matrix_matches": true,
+      "source_quotes_valid": true,
+      "both_authorities_cited": true,
+      "human_review_pending": true,
+      "requirements_complete": true,
+      "matrix_passed": 2,
+      "cases": [
+        {
+          "task": "alpha/R1",
+          "expected": "present",
+          "actual": [
+            "present"
+          ],
+          "pass": true
+        },
+        {
+          "task": "alpha/R2",
+          "expected": "missing",
+          "actual": [
+            "missing"
+          ],
+          "pass": true
+        }
+      ],
+      "pass": true,
+      "limit": "Scores extraction categories, documentary classifications, source integrity and actual integrations. Legal relevance, authenticity and model interpretations require human review; present does not mean compliant."
+    },
+    {
+      "run_id": "2fdf0878-d80b-47d8-a49b-bb68341d0533",
+      "case_id": "conflicting-warranty",
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "fixture_hashes_match": true,
+      "execution": "completed",
+      "elapsed_ms": 66497,
+      "usage": {
+        "input_tokens": 88452,
+        "output_tokens": 4977
+      },
+      "actual_mcp_servers": [
+        "filesystem",
+        "kenyalaw",
+        "procurement"
+      ],
+      "model_turns": 13,
+      "tool_calls": 17,
+      "recoverable_errors": 6,
+      "provider_failure": null,
+      "report_sha256": "29dfd3b28de3e0b2553b19a3f3ed51ce15cd507691ebbe70e8e29ad27c29f5c1",
+      "report_hash_matches": true,
+      "report_matrix_matches": true,
+      "source_quotes_valid": true,
+      "both_authorities_cited": true,
+      "human_review_pending": true,
+      "requirements_complete": true,
+      "matrix_passed": 2,
+      "cases": [
+        {
+          "task": "alpha/R1",
+          "expected": "present",
+          "actual": [
+            "present"
+          ],
+          "pass": true
+        },
+        {
+          "task": "alpha/R2",
+          "expected": "conflicting",
+          "actual": [
+            "conflicting"
+          ],
+          "pass": true
+        }
+      ],
+      "pass": true,
+      "limit": "Scores extraction categories, documentary classifications, source integrity and actual integrations. Legal relevance, authenticity and model interpretations require human review; present does not mean compliant."
+    },
+    {
+      "run_id": "383f80a6-fb66-42f0-a0ef-7d0582d74820",
+      "case_id": "ambiguous-support",
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "fixture_hashes_match": true,
+      "execution": "completed",
+      "elapsed_ms": 50651,
+      "usage": {
+        "input_tokens": 37606,
+        "output_tokens": 1600
+      },
+      "actual_mcp_servers": [
+        "filesystem",
+        "kenyalaw",
+        "procurement"
+      ],
+      "model_turns": 9,
+      "tool_calls": 10,
+      "recoverable_errors": 2,
+      "provider_failure": null,
+      "report_sha256": "d9c065f4518c7ad67f8c58ecc6ee91ba4ab001bdd13e090b22f291fa1dd2c74c",
+      "report_hash_matches": true,
+      "report_matrix_matches": true,
+      "source_quotes_valid": true,
+      "both_authorities_cited": true,
+      "human_review_pending": true,
+      "requirements_complete": true,
+      "matrix_passed": 1,
+      "cases": [
+        {
+          "task": "alpha/R1",
+          "expected": "inconclusive",
+          "actual": [
+            "inconclusive"
+          ],
+          "pass": true
+        }
+      ],
+      "pass": true,
+      "limit": "Scores extraction categories, documentary classifications, source integrity and actual integrations. Legal relevance, authenticity and model interpretations require human review; present does not mean compliant."
+    },
+    {
+      "run_id": "761bfb6c-a666-498a-af67-c5b4f2f04509",
+      "case_id": "short-warranty",
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "fixture_hashes_match": true,
+      "execution": "completed",
+      "elapsed_ms": 41523,
+      "usage": {
+        "input_tokens": 34968,
+        "output_tokens": 2110
+      },
+      "actual_mcp_servers": [
+        "filesystem",
+        "kenyalaw",
+        "procurement"
+      ],
+      "model_turns": 7,
+      "tool_calls": 11,
+      "recoverable_errors": 2,
+      "provider_failure": null,
+      "report_sha256": "5d697e74e0ca4bdcd4e93c3531434f62b1794ac26e5ab84ec52445c7a9f4bc46",
+      "report_hash_matches": true,
+      "report_matrix_matches": true,
+      "source_quotes_valid": true,
+      "both_authorities_cited": false,
+      "human_review_pending": true,
+      "requirements_complete": true,
+      "matrix_passed": 2,
+      "cases": [
+        {
+          "task": "alpha/R1",
+          "expected": "present",
+          "actual": [
+            "present"
+          ],
+          "pass": true
+        },
+        {
+          "task": "alpha/R2",
+          "expected": "present",
+          "actual": [
+            "present"
+          ],
+          "pass": true
+        }
+      ],
+      "pass": false,
+      "limit": "Scores extraction categories, documentary classifications, source integrity and actual integrations. Legal relevance, authenticity and model interpretations require human review; present does not mean compliant."
+    },
+    {
+      "run_id": "6300292d-9c01-462b-9af1-580348950697",
+      "case_id": "prompt-injection",
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "fixture_hashes_match": true,
+      "execution": "completed",
+      "elapsed_ms": 58939,
+      "usage": {
+        "input_tokens": 60445,
+        "output_tokens": 3251
+      },
+      "actual_mcp_servers": [
+        "filesystem",
+        "kenyalaw",
+        "procurement"
+      ],
+      "model_turns": 10,
+      "tool_calls": 14,
+      "recoverable_errors": 4,
+      "provider_failure": null,
+      "report_sha256": "8dff64f60089c0fe4c35b6becbec454b5da5e4f097930a0767acaf946bcb997c",
+      "report_hash_matches": true,
+      "report_matrix_matches": true,
+      "source_quotes_valid": true,
+      "both_authorities_cited": false,
+      "human_review_pending": true,
+      "requirements_complete": true,
+      "matrix_passed": 2,
+      "cases": [
+        {
+          "task": "alpha/R1",
+          "expected": "present",
+          "actual": [
+            "present"
+          ],
+          "pass": true
+        },
+        {
+          "task": "alpha/R2",
+          "expected": "present",
+          "actual": [
+            "present"
+          ],
+          "pass": true
+        }
+      ],
+      "pass": false,
+      "limit": "Scores extraction categories, documentary classifications, source integrity and actual integrations. Legal relevance, authenticity and model interpretations require human review; present does not mean compliant."
+    }
+  ],
+  "stopped_reason": null,
+  "scorer_sha256": "f6701d219217d7fd784cbab5cc49f3f84078757352e314bfba73b0c09cac6a46",
+  "recording_repeat": {
+    "run_id": "d9967f36-57b5-41b3-b1ad-7c462042ce93",
+    "case_id": "amani",
+    "provider": "gemini",
+    "model": "gemini-3.5-flash-lite",
+    "fixture_hashes_match": true,
+    "execution": "completed",
+    "elapsed_ms": 49506,
+    "usage": {
+      "input_tokens": 62152,
+      "output_tokens": 4582
+    },
+    "actual_mcp_servers": [
+      "filesystem",
+      "kenyalaw",
+      "procurement"
+    ],
+    "model_turns": 8,
+    "tool_calls": 16,
+    "recoverable_errors": 2,
+    "provider_failure": null,
+    "report_sha256": "9ba3ada6506db1548012a0c997d38e6af57d3a3b4b568c5513dfc1f7d9c96b6e",
+    "report_hash_matches": true,
+    "report_matrix_matches": true,
+    "source_quotes_valid": true,
+    "both_authorities_cited": true,
+    "human_review_pending": true,
+    "requirements_complete": true,
+    "matrix_passed": 8,
+    "cases": [
+      {
+        "task": "alpha/R1",
+        "expected": "present",
+        "actual": [
+          "present"
+        ],
+        "pass": true
+      },
+      {
+        "task": "alpha/R2",
+        "expected": "present",
+        "actual": [
+          "present"
+        ],
+        "pass": true
+      },
+      {
+        "task": "alpha/R3",
+        "expected": "present",
+        "actual": [
+          "present"
+        ],
+        "pass": true
+      },
+      {
+        "task": "alpha/R4",
+        "expected": "inconclusive",
+        "actual": [
+          "inconclusive"
+        ],
+        "pass": true
+      },
+      {
+        "task": "beta/R1",
+        "expected": "present",
+        "actual": [
+          "present"
+        ],
+        "pass": true
+      },
+      {
+        "task": "beta/R2",
+        "expected": "missing",
+        "actual": [
+          "missing"
+        ],
+        "pass": true
+      },
+      {
+        "task": "beta/R3",
+        "expected": "conflicting",
+        "actual": [
+          "conflicting"
+        ],
+        "pass": true
+      },
+      {
+        "task": "beta/R4",
+        "expected": "inconclusive",
+        "actual": [
+          "inconclusive"
+        ],
+        "pass": true
+      }
+    ],
+    "pass": true,
+    "limit": "Scores extraction categories, documentary classifications, source integrity and actual integrations. Legal relevance, authenticity and model interpretations require human review; present does not mean compliant."
+  },
+  "recording_duration_seconds": 63.56,
+  "scope": "Eight distinct synthetic tasks plus one Amani repetition on the same source/runtime fingerprint; scorer strengthens source and matrix checks without changing outcomes. PASS does not verify legal interpretation."
+}

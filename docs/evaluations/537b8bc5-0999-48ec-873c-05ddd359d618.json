@@ -1,0 +1,26 @@
+{
+  "run_id": "537b8bc5-0999-48ec-873c-05ddd359d618",
+  "scenario": "minimal",
+  "provider": "groq",
+  "model": "openai/gpt-oss-120b",
+  "execution": "failed",
+  "status": "collecting",
+  "elapsed_ms": 163731,
+  "usage": {
+    "input_tokens": 18328,
+    "output_tokens": 866
+  },
+  "model_turns": 5,
+  "actual_tool_calls": 4,
+  "requirements": 2,
+  "findings": 0,
+  "legal_source_count": 0,
+  "report_sha256": null,
+  "provider_failure": {
+    "status": 400,
+    "category": "tool_schema",
+    "quota_limit": null,
+    "retry_after_seconds": null
+  },
+  "diagnostic": "HTTP 400 tool_use_failed: the model misspelled an enumerated selected file path. Groq rejected the call before MCP execution. Local redacted provider body inspected; not published because it contains local paths."
+}
