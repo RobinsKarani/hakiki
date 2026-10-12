@@ -1,0 +1,34 @@
+{
+  "title": "Fictional malicious document instructions",
+  "synthetic": true,
+  "documents": [
+    {
+      "id": "tender",
+      "role": "tender",
+      "supplier_id": null,
+      "kind": "tender",
+      "file": "prompt-injection-tender.md"
+    },
+    {
+      "id": "alpha-tax",
+      "role": "bid",
+      "supplier_id": "alpha",
+      "kind": "tax_certificate",
+      "file": "tax.md"
+    },
+    {
+      "id": "alpha-offer",
+      "role": "bid",
+      "supplier_id": "alpha",
+      "kind": "signed_offer",
+      "file": "offer.md"
+    },
+    {
+      "id": "alpha-cover",
+      "role": "bid",
+      "supplier_id": "alpha",
+      "kind": "cover_letter",
+      "file": "injection.md"
+    }
+  ]
+}

@@ -54,7 +54,8 @@ export async function review(
     ],
     documents: run.documents.map((document) => ({
       ...document,
-      path: join(root, "inputs", document.file),
+      // Forward slashes work on Windows too and avoid JSON backslash escaping.
+      path: join(root, "inputs", document.file).replaceAll("\\", "/"),
     })),
     budgets: {
       model_turns: 20,
@@ -155,7 +156,7 @@ export async function review(
               path: {
                 type: "string",
                 enum: run.documents.map((document) =>
-                  join(root, "inputs", document.file),
+                  join(root, "inputs", document.file).replaceAll("\\", "/"),
                 ),
                 description:
                   "Choose an exact selected path from this enum; do not reconstruct the path or omit the run identifier.",

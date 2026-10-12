@@ -1,0 +1,27 @@
+{
+  "title": "Fictional supplied offer with a substantive shortfall",
+  "synthetic": true,
+  "documents": [
+    {
+      "id": "tender",
+      "role": "tender",
+      "supplier_id": null,
+      "kind": "tender",
+      "file": "short-warranty-tender.md"
+    },
+    {
+      "id": "alpha-tax",
+      "role": "bid",
+      "supplier_id": "alpha",
+      "kind": "tax_certificate",
+      "file": "tax.md"
+    },
+    {
+      "id": "alpha-offer",
+      "role": "bid",
+      "supplier_id": "alpha",
+      "kind": "signed_offer",
+      "file": "short-offer.md"
+    }
+  ]
+}

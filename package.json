@@ -28,7 +28,8 @@
     "diagram": "node --experimental-strip-types scripts/diagram.ts",
     "eval:open-weights": "node --env-file-if-exists=.env --experimental-strip-types scripts/open-weight-review.ts",
     "demo:live": "node --env-file-if-exists=.env --experimental-strip-types scripts/demo-live.ts",
-    "eval:recorded": "node --experimental-strip-types scripts/evaluate-run.ts"
+    "eval:recorded": "node --experimental-strip-types scripts/evaluate-run.ts",
+    "eval:suite": "node --env-file-if-exists=.env --experimental-strip-types scripts/evaluate-suite.ts"
   },
   "dependencies": {
     "@google/genai": "2.28.0",

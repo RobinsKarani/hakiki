@@ -1,0 +1,20 @@
+{
+  "title": "Fictional undefined support criterion",
+  "synthetic": true,
+  "documents": [
+    {
+      "id": "tender",
+      "role": "tender",
+      "supplier_id": null,
+      "kind": "tender",
+      "file": "ambiguous-support-tender.md"
+    },
+    {
+      "id": "alpha-offer",
+      "role": "bid",
+      "supplier_id": "alpha",
+      "kind": "signed_offer",
+      "file": "offer.md"
+    }
+  ]
+}

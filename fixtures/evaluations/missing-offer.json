@@ -1,0 +1,20 @@
+{
+  "title": "Fictional missing signed offer",
+  "synthetic": true,
+  "documents": [
+    {
+      "id": "tender",
+      "role": "tender",
+      "supplier_id": null,
+      "kind": "tender",
+      "file": "missing-offer-tender.md"
+    },
+    {
+      "id": "alpha-tax",
+      "role": "bid",
+      "supplier_id": "alpha",
+      "kind": "tax_certificate",
+      "file": "tax.md"
+    }
+  ]
+}

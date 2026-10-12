@@ -130,6 +130,17 @@ function App() {
         const current: Snapshot = await response.json();
         if (disposed) return;
         setSnapshot(current);
+        setRuns((previous) =>
+          previous.map((item) =>
+            item.id === run
+              ? {
+                  ...item,
+                  status: current.state.status,
+                  model: current.state.model,
+                }
+              : item,
+          ),
+        );
         if (current.state.report) {
           const text = await fetch(`/api/runs/${run}/report`).then((result) =>
             result.text(),

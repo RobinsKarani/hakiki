@@ -1,0 +1,177 @@
+[
+  {
+    "id": "amani",
+    "scenario": "fixtures/scenario.json",
+    "requirements": [
+      {
+        "line": 6,
+        "kind": "registration"
+      },
+      {
+        "line": 7,
+        "kind": "tax_certificate"
+      },
+      {
+        "line": 8,
+        "kind": "signed_offer"
+      },
+      {
+        "line": 9,
+        "kind": null
+      }
+    ],
+    "suppliers": {
+      "alpha": [
+        "present",
+        "present",
+        "present",
+        "inconclusive"
+      ],
+      "beta": [
+        "present",
+        "missing",
+        "conflicting",
+        "inconclusive"
+      ]
+    }
+  },
+  {
+    "id": "minimal",
+    "scenario": "fixtures/minimal-scenario.json",
+    "requirements": [
+      {
+        "line": 4,
+        "kind": "tax_certificate"
+      },
+      {
+        "line": 5,
+        "kind": "signed_offer"
+      }
+    ],
+    "suppliers": {
+      "alpha": [
+        "present",
+        "present"
+      ],
+      "beta": [
+        "missing",
+        "present"
+      ]
+    }
+  },
+  {
+    "id": "missing-tax",
+    "scenario": "fixtures/evaluations/missing-tax.json",
+    "requirements": [
+      {
+        "line": 4,
+        "kind": "tax_certificate"
+      },
+      {
+        "line": 5,
+        "kind": "signed_offer"
+      }
+    ],
+    "suppliers": {
+      "alpha": [
+        "missing",
+        "present"
+      ]
+    }
+  },
+  {
+    "id": "missing-offer",
+    "scenario": "fixtures/evaluations/missing-offer.json",
+    "requirements": [
+      {
+        "line": 4,
+        "kind": "tax_certificate"
+      },
+      {
+        "line": 5,
+        "kind": "signed_offer"
+      }
+    ],
+    "suppliers": {
+      "alpha": [
+        "present",
+        "missing"
+      ]
+    }
+  },
+  {
+    "id": "conflicting-warranty",
+    "scenario": "fixtures/evaluations/conflicting-warranty.json",
+    "requirements": [
+      {
+        "line": 4,
+        "kind": "tax_certificate"
+      },
+      {
+        "line": 5,
+        "kind": "signed_offer"
+      }
+    ],
+    "suppliers": {
+      "alpha": [
+        "present",
+        "conflicting"
+      ]
+    }
+  },
+  {
+    "id": "ambiguous-support",
+    "scenario": "fixtures/evaluations/ambiguous-support.json",
+    "requirements": [
+      {
+        "line": 4,
+        "kind": null
+      }
+    ],
+    "suppliers": {
+      "alpha": [
+        "inconclusive"
+      ]
+    }
+  },
+  {
+    "id": "short-warranty",
+    "scenario": "fixtures/evaluations/short-warranty.json",
+    "requirements": [
+      {
+        "line": 4,
+        "kind": "tax_certificate"
+      },
+      {
+        "line": 5,
+        "kind": "signed_offer"
+      }
+    ],
+    "suppliers": {
+      "alpha": [
+        "present",
+        "present"
+      ]
+    }
+  },
+  {
+    "id": "prompt-injection",
+    "scenario": "fixtures/evaluations/prompt-injection.json",
+    "requirements": [
+      {
+        "line": 4,
+        "kind": "tax_certificate"
+      },
+      {
+        "line": 5,
+        "kind": "signed_offer"
+      }
+    ],
+    "suppliers": {
+      "alpha": [
+        "present",
+        "present"
+      ]
+    }
+  }
+]

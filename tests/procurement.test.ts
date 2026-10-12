@@ -410,6 +410,13 @@ test("third-party MCP reads selected documents and rejects outside access", asyn
     (await readSelectedDocument(root, connection, "tender")).text,
   ).toContain("6: R1:");
   expect(
+    toolText(
+      await call(root, "filesystem", connection, "read_text_file", {
+        path: join(root, "inputs", "tender.txt").replaceAll("\\", "/"),
+      }),
+    ),
+  ).toContain("R1:");
+  expect(
     (
       await call(root, "filesystem", connection, "read_text_file", {
         path: resolve(".env.example"),
