@@ -1,0 +1,61 @@
+{
+  "run_id": "86ffbab9-48db-425d-8a16-8966e7800567",
+  "provider": "gemini",
+  "model": "gemini-3.5-flash-lite",
+  "execution": "completed",
+  "status": "draft",
+  "elapsed_ms": 76606,
+  "usage": {
+    "input_tokens": 87285,
+    "output_tokens": 4739
+  },
+  "model_turns": 14,
+  "actual_tool_calls": 17,
+  "recoverable_errors": 3,
+  "legal_source_count": 2,
+  "requirements": 4,
+  "findings": [
+    {
+      "supplier": "alpha",
+      "requirement": "req-1",
+      "classification": "present"
+    },
+    {
+      "supplier": "alpha",
+      "requirement": "req-2",
+      "classification": "present"
+    },
+    {
+      "supplier": "alpha",
+      "requirement": "req-3",
+      "classification": "present"
+    },
+    {
+      "supplier": "alpha",
+      "requirement": "req-4",
+      "classification": "missing"
+    },
+    {
+      "supplier": "beta",
+      "requirement": "req-1",
+      "classification": "present"
+    },
+    {
+      "supplier": "beta",
+      "requirement": "req-2",
+      "classification": "missing"
+    },
+    {
+      "supplier": "beta",
+      "requirement": "req-3",
+      "classification": "present"
+    },
+    {
+      "supplier": "beta",
+      "requirement": "req-4",
+      "classification": "missing"
+    }
+  ],
+  "report_sha256": "8a04c61dfd5a2440a70bc49197a48675f893ae24fdd0adfeabc247e52a31e53b",
+  "provider_failure": null
+}

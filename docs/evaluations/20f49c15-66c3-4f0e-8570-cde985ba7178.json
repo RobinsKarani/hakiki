@@ -1,0 +1,44 @@
+{
+  "run_id": "20f49c15-66c3-4f0e-8570-cde985ba7178",
+  "provider": "groq",
+  "model": "openai/gpt-oss-120b",
+  "scenario": "Fictional tax and warranty documentary review",
+  "execution": "failed",
+  "elapsed_ms": 410259,
+  "usage": {
+    "input_tokens": 47325,
+    "output_tokens": 1582
+  },
+  "model_turns": 11,
+  "actual_tool_calls": 10,
+  "requirements": 2,
+  "findings": [
+    {
+      "supplier": "alpha",
+      "requirement": "req-1",
+      "classification": "present"
+    },
+    {
+      "supplier": "alpha",
+      "requirement": "req-2",
+      "classification": "present"
+    },
+    {
+      "supplier": "beta",
+      "requirement": "req-1",
+      "classification": "missing"
+    },
+    {
+      "supplier": "beta",
+      "requirement": "req-2",
+      "classification": "present"
+    }
+  ],
+  "report_sha256": null,
+  "provider_failure": {
+    "status": 429,
+    "category": "quota_or_rate_limit",
+    "quota_limit": null,
+    "retry_after_seconds": null
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "run_id": "563160ef-cc31-4f9d-93b2-24f5f428ef07",
+  "provider": "groq",
+  "model": "openai/gpt-oss-120b",
+  "execution": "failed",
+  "status": "collecting",
+  "elapsed_ms": 711689,
+  "usage": {
+    "input_tokens": 85969,
+    "output_tokens": 3053
+  },
+  "model_turns": 20,
+  "actual_tool_calls": 19,
+  "recoverable_errors": 4,
+  "legal_source_count": 0,
+  "requirements": 8,
+  "findings": [],
+  "report_sha256": null,
+  "provider_failure": null
+}

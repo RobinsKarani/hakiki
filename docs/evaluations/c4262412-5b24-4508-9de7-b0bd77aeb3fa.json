@@ -1,0 +1,57 @@
+{
+  "run_id": "c4262412-5b24-4508-9de7-b0bd77aeb3fa",
+  "provider": "gemini",
+  "model": "gemini-3.5-flash-lite",
+  "execution": "failed",
+  "elapsed_ms": 75394,
+  "usage": {
+    "input_tokens": 170678,
+    "output_tokens": 4946
+  },
+  "model_turns": 11,
+  "requirements": 4,
+  "findings": [
+    {
+      "supplier": "alpha",
+      "requirement": "req-1",
+      "classification": "present"
+    },
+    {
+      "supplier": "alpha",
+      "requirement": "req-2",
+      "classification": "present"
+    },
+    {
+      "supplier": "alpha",
+      "requirement": "req-3",
+      "classification": "present"
+    },
+    {
+      "supplier": "alpha",
+      "requirement": "req-4",
+      "classification": "inconclusive"
+    },
+    {
+      "supplier": "beta",
+      "requirement": "req-1",
+      "classification": "present"
+    },
+    {
+      "supplier": "beta",
+      "requirement": "req-2",
+      "classification": "missing"
+    },
+    {
+      "supplier": "beta",
+      "requirement": "req-3",
+      "classification": "present"
+    },
+    {
+      "supplier": "beta",
+      "requirement": "req-4",
+      "classification": "inconclusive"
+    }
+  ],
+  "report_sha256": null,
+  "failure": "Wrong Act full-document fallback consumed token threshold; final host now allows bounded focused retrieval only."
+}

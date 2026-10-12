@@ -1,0 +1,10 @@
+{
+  "title": "Fictional tax and warranty documentary review",
+  "synthetic": true,
+  "documents": [
+    { "id": "tender", "role": "tender", "supplier_id": null, "kind": "tender", "file": "minimal-tender.md" },
+    { "id": "alpha-tax", "role": "bid", "supplier_id": "alpha", "kind": "tax_certificate", "file": "alpha-tax.md" },
+    { "id": "alpha-offer", "role": "bid", "supplier_id": "alpha", "kind": "signed_offer", "file": "alpha-offer.md" },
+    { "id": "beta-offer", "role": "bid", "supplier_id": "beta", "kind": "signed_offer", "file": "beta-offer.md" }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "run_id": "ec39bac3-e823-4648-a9d1-57da54b35cb9",
+  "provider": "groq",
+  "model": "openai/gpt-oss-120b",
+  "scenario": "Archived ICT Authority laptops/tablets notice - synthetic training submissions",
+  "execution": "failed",
+  "status": "collecting",
+  "elapsed_ms": 762283,
+  "usage": {
+    "input_tokens": 82741,
+    "output_tokens": 9371
+  },
+  "model_turns": 16,
+  "tool_calls": 15,
+  "recoverable_errors": 11,
+  "requirements": 0,
+  "legal_sources": 0,
+  "report_sha256": null,
+  "provider_failure": {
+    "status": 400,
+    "category": "tool_schema",
+    "quota_limit": null,
+    "retry_after_seconds": null
+  }
+}

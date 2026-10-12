@@ -1,0 +1,58 @@
+{
+  "run_id": "0ce2666f-f8da-4600-9940-2a1ddf9260c1",
+  "provider": "gemini",
+  "model": "gemini-3.5-flash-lite",
+  "execution": "failed",
+  "elapsed_ms": 67938,
+  "usage": {
+    "input_tokens": 166708,
+    "output_tokens": 4481
+  },
+  "model_turns": 11,
+  "actual_tool_calls": 20,
+  "requirements": 4,
+  "findings": [
+    {
+      "supplier": "alpha",
+      "requirement": "req-1",
+      "classification": "present"
+    },
+    {
+      "supplier": "alpha",
+      "requirement": "req-2",
+      "classification": "present"
+    },
+    {
+      "supplier": "alpha",
+      "requirement": "req-3",
+      "classification": "present"
+    },
+    {
+      "supplier": "alpha",
+      "requirement": "req-4",
+      "classification": "inconclusive"
+    },
+    {
+      "supplier": "beta",
+      "requirement": "req-1",
+      "classification": "present"
+    },
+    {
+      "supplier": "beta",
+      "requirement": "req-2",
+      "classification": "missing"
+    },
+    {
+      "supplier": "beta",
+      "requirement": "req-3",
+      "classification": "conflicting"
+    },
+    {
+      "supplier": "beta",
+      "requirement": "req-4",
+      "classification": "inconclusive"
+    }
+  ],
+  "report_sha256": null,
+  "failure": "Token threshold reached after rejected report attempts; Section-prefixed lookup returned large documents."
+}

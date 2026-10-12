@@ -1,0 +1,43 @@
+{
+  "title": "Archived ICT Authority laptops/tablets notice - synthetic training submissions",
+  "synthetic": true,
+  "provenance": {
+    "type": "archived_notice",
+    "reference": "KE-ICTA-395947-GO-RFB",
+    "source_url": "https://cms.icta.go.ke/sites/default/files/2024-07/Advert%20-%20ICTA-Supply%20%26%20Delivery%20of%20Laptops%20and%20Tablets---25%20x%203_0.pdf",
+    "closed_on": "2024-08-21",
+    "retrieved_at": "2026-10-12T13:48:10.780296+00:00",
+    "original_sha256": "3fba18c9e2004c99c47a4d2010fbc85a063d0323243da5dce5fc3f2c704dd02c",
+    "scope": "Public notice excerpt from original PDF page 1; contacts omitted. Full bidding document and financing-rule applicability are not verified. Supplier files are synthetic and were never submitted."
+  },
+  "documents": [
+    {
+      "id": "tender",
+      "role": "tender",
+      "supplier_id": null,
+      "kind": "tender",
+      "file": "notice.md"
+    },
+    {
+      "id": "alpha-security",
+      "role": "bid",
+      "supplier_id": "alpha",
+      "kind": "bid_security",
+      "file": "alpha-security.md"
+    },
+    {
+      "id": "alpha-offer",
+      "role": "bid",
+      "supplier_id": "alpha",
+      "kind": "signed_offer",
+      "file": "alpha-offer.md"
+    },
+    {
+      "id": "beta-offer",
+      "role": "bid",
+      "supplier_id": "beta",
+      "kind": "signed_offer",
+      "file": "beta-offer.md"
+    }
+  ]
+}

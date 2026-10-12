@@ -1,0 +1,13 @@
+{
+  "title": "Fictional Amani County ICT equipment document review",
+  "synthetic": true,
+  "documents": [
+    { "id": "tender", "role": "tender", "supplier_id": null, "kind": "tender", "file": "tender.md" },
+    { "id": "alpha-registration", "role": "bid", "supplier_id": "alpha", "kind": "registration", "file": "alpha-registration.md" },
+    { "id": "alpha-tax", "role": "bid", "supplier_id": "alpha", "kind": "tax_certificate", "file": "alpha-tax.md" },
+    { "id": "alpha-offer", "role": "bid", "supplier_id": "alpha", "kind": "signed_offer", "file": "alpha-offer.md" },
+    { "id": "beta-registration", "role": "bid", "supplier_id": "beta", "kind": "registration", "file": "beta-registration.md" },
+    { "id": "beta-offer", "role": "bid", "supplier_id": "beta", "kind": "signed_offer", "file": "beta-offer.md" },
+    { "id": "beta-cover", "role": "bid", "supplier_id": "beta", "kind": "cover_letter", "file": "beta-cover.md" }
+  ]
+}
