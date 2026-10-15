@@ -31,7 +31,7 @@ export async function connectStdio(
   options: { entry: string; args?: string[]; env?: Record<string, string> },
 ) {
   const client = new Client(
-    { name: "procurement-review-agent", version: "0.1.0" },
+    { name: "hakiki", version: "0.1.0" },
     {
       // Negotiation uses the SDK, including compatibility with the third-party v1 server.
       versionNegotiation: { mode: "auto" },

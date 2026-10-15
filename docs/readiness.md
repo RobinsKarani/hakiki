@@ -13,7 +13,7 @@ Your submission target is **14 October 2026, evening, Africa/Nairobi**. This is 
 | Timestamped action inputs/outputs | IMPLEMENTED: agent/MCP logs shown in the browser. File import is setup, not a model tool call. |
 | Named human gate | IMPLEMENTED: completed, unchanged drafts require a name and note. Identity is self-reported; no officer has reviewed a report. |
 | New work in submission window | UNCONFIRMED: work recorded 12 October 2026; eligible dates/timezone need confirmation. |
-| Public OSI repository / one-command setup | IMPLEMENTED: [public repository](https://github.com/RobinsKarani/procurement-review-agent), MIT license and locked setup. Clean-copy startup tested. |
+| Public OSI repository / one-command setup | IMPLEMENTED: [public repository](https://github.com/RobinsKarani/hakiki), MIT license and locked setup. Clean-copy startup tested. |
 | Public unedited video under three minutes | PARTIAL: fresh local 63.56-second Gemini recording, without edits, audio or human approval. Not uploaded to YouTube/Vimeo. |
 | About 300 words / office / workflow / theme | DRAFTED in [application.md](application.md). Intended user identified; no institutional partnership. |
 | One-page architecture / diagram | PREPARED: [ARCHITECTURE.md](../ARCHITECTURE.md), PNG and SVG below 10 MB. |

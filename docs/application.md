@@ -4,7 +4,7 @@ These drafts address the brief's topics. The application form's exact questions 
 
 ## Project description
 
-Kenya Procurement Review Agent prepares a draft document-checking report for an officer reviewing ICT equipment submissions in a Kenyan public procurement unit. It fits the Governance track. We have not yet interviewed a procurement officer or tested it with an institution.
+Hakiki (Kenya Procurement Review Agent) prepares a draft document-checking report for an officer reviewing ICT equipment submissions in a Kenyan public procurement unit. It fits the Governance track. We have not yet interviewed a procurement officer or tested it with an institution.
 
 The user selects a synthetic package or an archived notice with fictional supplier documents. The model writes a visible plan, chooses tools, reads files through third-party Filesystem MCP and retrieves legislation through public KenyaLaw MCP. Our Procurement MCP server has three tools: record requirements with quotations, check supplied evidence and write a draft. The backend checks source lines, hashes, supplier ownership and whether every requirement has a finding. Tool errors go back to the model for correction; calls, tokens and time are limited.
 

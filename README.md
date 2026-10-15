@@ -1,4 +1,4 @@
-# Kenya Procurement Review Agent
+# Hakiki — Kenya Procurement Review Agent
 
 An autonomous, inspectable AI agent that audits public tender bids against Kenyan procurement legislation using the **Model Context Protocol (MCP)**. 
 
@@ -14,7 +14,7 @@ Built for the **[African Agentic AI Design Challenge](https://agentic-africa-cha
 
 Evaluating public tender bids against technical specifications, statutory compliance, and tender rules is traditionally weeks of manual committee work. 
 
-The **Kenya Procurement Review Agent** automates the mechanical checking, legal research, and evidence cross-referencing:
+**Hakiki** (*Swahili for "to verify, audit, or ascertain"*) automates the mechanical checking, legal research, and evidence cross-referencing:
 1. **Reads tender & bidder documents** via a secure, sandboxed Filesystem MCP server.
 2. **Retrieves applicable Kenyan legislation** via the official KenyaLaw MCP server (querying the *Public Procurement and Asset Disposal Act 2015* and *Constitution Article 227*).
 3. **Cross-references claims & flags discrepancies** via a custom Procurement MCP server (spotting missing tax certificates, conflicting warranty terms, or prompt injection attempts).
@@ -33,8 +33,8 @@ The **Kenya Procurement Review Agent** automates the mechanical checking, legal 
 - Git & internet connection (for initial dependencies and live KenyaLaw retrieval).
 
 ```sh
-git clone https://github.com/RobinsKarani/procurement-review-agent.git
-cd procurement-review-agent
+git clone https://github.com/RobinsKarani/hakiki.git
+cd hakiki
 bun run launch
 ```
 

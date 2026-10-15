@@ -184,9 +184,10 @@ function App() {
     <main>
       <header>
         <div>
-          <h1>Kenya Procurement Review</h1>
+          <h1>Hakiki</h1>
           <p>
-            A sourced documentary draft for a procurement officer to review.
+            An autonomous, sourced documentary review for a Kenyan procurement
+            officer.
           </p>
         </div>
         <span className="badge">No award or eligibility decision</span>
