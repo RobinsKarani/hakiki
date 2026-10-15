@@ -4,6 +4,7 @@ An autonomous, inspectable AI agent that audits public tender bids against Kenya
 
 Built for the **[African Agentic AI Design Challenge](https://agentic-africa-challenge.lovable.app/)**: Governance Track (*The Bid Box Challenge*).
 
+[![Live App](https://img.shields.io/badge/Live_App-Railway-purple?logo=railway)](https://hakiki-production-1b78.up.railway.app)
 [![Demo Video](https://img.shields.io/badge/Demo_Video-YouTube-red?logo=youtube)](https://youtu.be/U6YFVdpXw4Y)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Verification](https://img.shields.io/badge/Tests-31%20Passed-brightgreen)](tests/)
