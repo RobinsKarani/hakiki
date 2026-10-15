@@ -1,8 +1,8 @@
-# Hakiki — Kenya Procurement Review Agent
+# Hakiki: Kenya Procurement Review Agent
 
 An autonomous, inspectable AI agent that audits public tender bids against Kenyan procurement legislation using the **Model Context Protocol (MCP)**. 
 
-Built for the **[African Agentic AI Design Challenge](https://agentic-africa-challenge.lovable.app/)** — Governance Track (*The Bid Box Challenge*).
+Built for the **[African Agentic AI Design Challenge](https://agentic-africa-challenge.lovable.app/)**: Governance Track (*The Bid Box Challenge*).
 
 [![Demo Video](https://img.shields.io/badge/Demo_Video-YouTube-red?logo=youtube)](https://youtu.be/U6YFVdpXw4Y)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
@@ -111,7 +111,7 @@ The agent uses a direct, sequential TypeScript runtime without black-box framewo
 2. **Document Discovery**: The model calls `read_text_file` to read the tender and all supplier bids within scoped input folders.
 3. **Statutory Lookup**: The model queries KenyaLaw MCP for specific provisions of the *Public Procurement and Asset Disposal Act (PPADA 2015)* and *Article 227 of the Constitution*.
 4. **Completeness & Conflict Checks**: The model calls `check_bid_completeness` on each supplier. Conflicting statements (e.g. 12-month vs 24-month warranty) require dual exact quotations.
-5. **Drafting & Citation Guard**: The model calls `write_review_report`. Citations must point to substantive statutory text—metadata lines and bare section headings are rejected.
+5. **Drafting & Citation Guard**: The model calls `write_review_report`. Citations must point to substantive statutory text: metadata lines and bare section headings are rejected.
 6. **Human Sign-Off**: The completed draft is frozen. A qualified human enters their reviewer name and notes to approve, reject, or request revisions.
 
 ---

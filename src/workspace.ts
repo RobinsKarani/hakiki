@@ -322,7 +322,7 @@ export function isSubstantiveLegalReference(
   ) {
     return false;
   }
-  if (/[—–\-:]\s*$/.test(trimmed)) {
+  if (/[\u2014\u2013\-:]\s*$/.test(trimmed)) {
     return false;
   }
   if (

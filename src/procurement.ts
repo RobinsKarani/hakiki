@@ -277,7 +277,7 @@ export async function writeReport(
   }
   const markdown = [
     `# Draft procurement review: ${escaped(state.title)}`,
-    "Status: DRAFT — human review required. Synthetic supplier documents. No tender award, disqualification or legally binding decision is authorized.",
+    "Status: DRAFT: human review required. Synthetic supplier documents. No tender award, disqualification or legally binding decision is authorized.",
     `Run: ${state.id}\n\nModel: ${escaped(state.provider ?? "transport evaluation (no model)")} / ${escaped(state.model ?? "none")}`,
     `Scope: ${escaped(args.scope_notes)}`,
     ...(state.provenance

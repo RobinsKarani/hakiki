@@ -1,4 +1,4 @@
-# Synthetic tender — Amani County Demonstration Office
+# Synthetic tender: Amani County Demonstration Office
 This is a fictional teaching dataset, not an active public tender.
 Tender reference: SYN-ICT-2026-01. Procurement: ten laptops.
 Submission deadline: 2026-10-14 at 10:00 Africa/Nairobi.

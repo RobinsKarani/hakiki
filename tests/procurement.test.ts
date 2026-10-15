@@ -399,7 +399,7 @@ describe("Procurement MCP over real stdio", () => {
         "---",
         "79. Responsiveness of tenders",
         "(1)Use the requirements stated in the tender documents; this is a synthetic clause for transport testing only.",
-        "(2)A responsive tender shall not be affected by—",
+        "(2)A responsive tender shall not be affected by:",
       ].join("\n"),
     );
     const findings = (await loadState(root)).findings;
@@ -418,7 +418,7 @@ describe("Procurement MCP over real stdio", () => {
       [2, "**AKN URI**: /akn/ke/act/2015/33"],
       [4, "79. Responsiveness of tenders"],
       [4, "Responsiveness of tenders"],
-      [6, "(2)A responsive tender shall not be affected by—"],
+      [6, "(2)A responsive tender shall not be affected by:"],
     ] as const) {
       const result = await invoke("write_review_report", report(line, quote));
       expect(result.isError).toBe(true);
