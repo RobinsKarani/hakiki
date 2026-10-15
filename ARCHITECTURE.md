@@ -10,60 +10,60 @@ The system runs on a direct, lightweight TypeScript runtime without black-box fr
 
 ```mermaid
 flowchart TB
-    subgraph UI_LAYER["User Interface: Local Browser"]
-        Officer["Procurement Officer (Human Reviewer)"]
-        WebClient["React 19 / Vite Web Client\n(http://127.0.0.1:4317)"]
+    subgraph UI_LAYER ["User Interface: Local Browser"]
+        Officer["Procurement Officer<br/>(Named Human Gate)"]
+        WebClient["React 19 / Vite Web Client<br/>(Local Port 4317)"]
     end
 
-    subgraph BACKEND_LAYER["Host & Runtime: Node.js / Bun"]
-        HttpServer["Loopback HTTP Server (src/http.ts)\nHost & Origin Guarded · Session Token"]
-        Runtime["Agent Runtime Engine (src/runtime.ts)\nBounded Multi-Turn Loop · Call Budgets"]
-        HumanGate["Human Review Module (src/human-review.ts)\nDraft Hash Validation · Named Gate"]
-        Workspace["Workspace & Citation Engine (src/workspace.ts)\nSHA-256 Hashing · Line Indexing · Substantive Law Guard"]
+    subgraph BACKEND_LAYER ["Host & Runtime: Node.js / Bun"]
+        HttpServer["Loopback HTTP Server (src/http.ts)<br/>Host & Origin Checked · Session Token"]
+        Runtime["Agent Runtime Engine (src/runtime.ts)<br/>Bounded Multi-Turn Loop · Call Budgets"]
+        HumanGate["Human Review Module (src/human-review.ts)<br/>Draft Hash Validation · Named Gate"]
+        Workspace["Workspace & Citation Engine (src/workspace.ts)<br/>SHA-256 Hashing · Line Indexing · Substantive Law Guard"]
     end
 
-    subgraph MODEL_LAYER["Model Inference: Fixed Provider"]
+    subgraph MODEL_LAYER ["Model Inference: Fixed Provider"]
         ModelAdapter["Model Adapter (src/models.ts)"]
         LLM["Gemini 3.5 Flash / GPT-5.6 / Groq OSS / Local Endpoint"]
     end
 
-    subgraph MCP_LAYER["Model Context Protocol (MCP): Stdio Transports"]
+    subgraph MCP_LAYER ["Model Context Protocol (MCP): Stdio Transports"]
         ClientFS["Filesystem MCP Client"]
         ClientLaw["KenyaLaw MCP Client"]
         ClientProc["Procurement MCP Client"]
         
-        ServerFS["server-filesystem (stdio child)\nTool: read_text_file"]
-        ServerLaw["kenya-law-mcp (stdio child)\nTools: search_legislation, get_akn_document"]
-        ServerProc["procurement-mcp (stdio child)\nTools: extract_tender_requirements,\ncheck_bid_completeness, write_review_report"]
+        ServerFS["server-filesystem (stdio child)<br/>Tool: read_text_file"]
+        ServerLaw["kenya-law-mcp (stdio child)<br/>Tools: search_legislation, get_akn_document"]
+        ServerProc["procurement-mcp (stdio child)<br/>Tools: extract_tender_requirements,<br/>check_bid_completeness, write_review_report"]
     end
 
-    subgraph DATA_LAYER["Evidence & Statutory Sources"]
-        LocalInputs["Tender & Bidder Submissions\n(Sandboxed Text / PDF Files)"]
-        KenyaLawAPI["KenyaLaw.org Public Endpoint\n(Official Akoma Ntoso XML / Text)"]
-        RunStorage["Local Run Directory (runs/)\nState JSON · Frozen Draft · Review Record"]
+    subgraph DATA_LAYER ["Evidence & Statutory Sources"]
+        LocalInputs["Tender & Bidder Submissions<br/>(Sandboxed Text / PDF Files)"]
+        KenyaLawAPI["KenyaLaw.org Public Endpoint<br/>(Official Akoma Ntoso XML / Text)"]
+        RunStorage["Local Run Directory (runs/)<br/>State JSON · Frozen Draft · Review Record"]
     end
 
-    Officer <-->|"Selects scenario, grants inference consent, signs review"| WebClient
-    WebClient <-->|"HTTP REST / Events on Loopback"| HttpServer
+    Officer ---|"Inputs, Consent, Review Decision"| WebClient
+    WebClient ---|"HTTP REST / Events on Loopback"| HttpServer
     HttpServer -->|"startReview / cancelReview"| Runtime
     HttpServer -->|"recordHumanDecision"| HumanGate
 
-    Runtime <-->|"Turn 1: Observable Plan\nTurns 2+: Tool Proposals & Error Feedback"| ModelAdapter
-    ModelAdapter <-->|"Bound HTTPS Call (Explicit Consent)"| LLM
+    Runtime ---|"Turn 1: Plan<br/>Turns 2+: Tools & Errors"| ModelAdapter
+    ModelAdapter ---|"HTTPS Inference (Explicit Consent)"| LLM
 
-    Runtime -->|"Dispatched Tool Calls"| ClientFS
-    Runtime -->|"Dispatched Tool Calls"| ClientLaw
-    Runtime -->|"Dispatched Tool Calls"| ClientProc
+    Runtime -->|"Tool Dispatch"| ClientFS
+    Runtime -->|"Tool Dispatch"| ClientLaw
+    Runtime -->|"Tool Dispatch"| ClientProc
 
-    ClientFS <-->|"stdio JSON-RPC"| ServerFS
-    ClientLaw <-->|"stdio JSON-RPC"| ServerLaw
-    ClientProc <-->|"stdio JSON-RPC"| ServerProc
+    ClientFS ---|"stdio JSON-RPC"| ServerFS
+    ClientLaw ---|"stdio JSON-RPC"| ServerLaw
+    ClientProc ---|"stdio JSON-RPC"| ServerProc
 
-    ServerFS <-->|"Sandboxed Read"| LocalInputs
-    ServerLaw <-->|"HTTPS Akoma Ntoso Retrieval"| KenyaLawAPI
-    ServerProc <-->|"Requirement & Finding Verification"| Workspace
+    ServerFS -->|"Sandboxed Read"| LocalInputs
+    ServerLaw -->|"HTTPS AKN Retrieval"| KenyaLawAPI
+    ServerProc -->|"Requirement & Finding Verification"| Workspace
 
-    Workspace <-->|"Persist State & Compute SHA-256"| RunStorage
+    Workspace -->|"Persist State & Compute SHA-256"| RunStorage
     HumanGate -->|"Verify Unchanged Draft Hash & Save Decision"| RunStorage
     HumanGate -.->|"Final Sign-Off Status"| WebClient
 ```
