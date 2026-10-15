@@ -12,12 +12,9 @@ RUN curl -fsSL https://bun.sh/install | bash
 
 WORKDIR /app
 
-# Copy dependency manifests
+# Copy dependency manifests and configuration
 COPY package.json bun.lock tsconfig.json tsconfig.build.json ./
-COPY web/package.json web/tsconfig.json web/vite.config.ts web/
 COPY scripts/ scripts/
-
-# Copy application sources, fixtures and web client
 COPY fixtures/ fixtures/
 COPY src/ src/
 COPY web/ web/
