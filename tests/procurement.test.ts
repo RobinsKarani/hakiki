@@ -382,6 +382,60 @@ describe("Procurement MCP over real stdio", () => {
     ).toBe(false);
   }, 15000);
 
+  test("rejects heading-only legal support before writing, then accepts a substantive fixture clause", async () => {
+    const { invoke, root } = await setup();
+    await invoke("extract_tender_requirements", {
+      document_id: "tender",
+      candidates: [candidates[0]],
+    });
+    for (const supplier_id of ["alpha", "beta"])
+      await invoke("check_bid_completeness", { supplier_id, observations: [] });
+    const source = await registerLegalSource(
+      root,
+      "/akn/ke/act/2015/33",
+      [
+        "# Synthetic provision fixture; not live law",
+        "**AKN URI**: /akn/ke/act/2015/33",
+        "---",
+        "79. Responsiveness of tenders",
+        "(1)Use the requirements stated in the tender documents; this is a synthetic clause for transport testing only.",
+        "(2)A responsive tender shall not be affected by—",
+      ].join("\n"),
+    );
+    const findings = (await loadState(root)).findings;
+    const report = (line: number, quote: string) => ({
+      scope_notes:
+        "Deterministic transport regression, fixture law; no provider calls",
+      findings: findings.map((item) => ({
+        finding_id: item.id,
+        interpretation: "Documentary finding needs human review",
+        uncertainty: "Synthetic authority; no legal correctness claim",
+        legal_references: [ref(source.id, line, quote)],
+      })),
+    });
+    for (const [line, quote] of [
+      [1, "# Synthetic provision fixture; not live law"],
+      [2, "**AKN URI**: /akn/ke/act/2015/33"],
+      [4, "79. Responsiveness of tenders"],
+      [4, "Responsiveness of tenders"],
+      [6, "(2)A responsive tender shall not be affected by—"],
+    ] as const) {
+      const result = await invoke("write_review_report", report(line, quote));
+      expect(result.isError).toBe(true);
+      expect(toolText(result)).toContain("substantive");
+      expect((await loadState(root)).report).toBeNull();
+    }
+    const result = await invoke(
+      "write_review_report",
+      report(
+        5,
+        "(1)Use the requirements stated in the tender documents; this is a synthetic clause for transport testing only.",
+      ),
+    );
+    expect(result.isError).not.toBe(true);
+    expect((await loadState(root)).status).toBe("draft");
+  }, 15000);
+
   test("detects edited source files rather than trusting stale references", async () => {
     const { invoke, root } = await setup();
     await writeFile(join(root, "inputs/tender.txt"), "Changed input");

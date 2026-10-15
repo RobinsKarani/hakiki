@@ -184,7 +184,6 @@ function App() {
     <main>
       <header>
         <div>
-          <p className="eyebrow">LOCAL WORKSPACE · SYNTHETIC DATA</p>
           <h1>Kenya Procurement Review</h1>
           <p>
             A sourced documentary draft for a procurement officer to review.

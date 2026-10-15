@@ -309,6 +309,47 @@ export function numbered(text: string) {
     .join("\n");
 }
 
+export function isSubstantiveLegalReference(
+  quote: string,
+  sourceLines: string[],
+): boolean {
+  const trimmed = quote.trim();
+  if (
+    trimmed.startsWith("#") ||
+    trimmed.startsWith("**") ||
+    trimmed.startsWith("---") ||
+    trimmed.includes("AKN URI:")
+  ) {
+    return false;
+  }
+  if (/[—–\-:]\s*$/.test(trimmed)) {
+    return false;
+  }
+  if (
+    /^(?:Part\s+[0-9IVXLCDM]+|Article\s+\d+|\d+\.)\s+[A-Za-z0-9\s,'"-]+$/i.test(
+      trimmed,
+    )
+  ) {
+    return false;
+  }
+  for (const line of sourceLines) {
+    const lTrim = line.trim();
+    const headingMatch = lTrim.match(/^(?:\d+\.\s*)([A-Za-z0-9\s,'"-]+)$/);
+    if (headingMatch) {
+      if (trimmed === lTrim || trimmed === headingMatch[1]?.trim()) {
+        return false;
+      }
+    }
+    if (
+      lTrim.startsWith("#") &&
+      (trimmed === lTrim || trimmed === lTrim.replace(/^#+\s*/, "").trim())
+    ) {
+      return false;
+    }
+  }
+  return true;
+}
+
 export async function validateReference(
   root: string,
   state: RunState,
@@ -350,6 +391,14 @@ export async function validateReference(
     throw new Error(
       `Quotation does not match ${document.id} lines ${ref.line_start}-${ref.line_end}. Preserve exact whitespace, punctuation and line breaks; use a shorter exact substring if needed.`,
     );
+  if (options.legal) {
+    const quotedLines = lines.slice(ref.line_start - 1, ref.line_end);
+    if (!isSubstantiveLegalReference(ref.quote, quotedLines)) {
+      throw new Error(
+        `Legal reference must cite substantive statutory provisions; headings, metadata lines and incomplete introductory fragments are not valid legal citations.`,
+      );
+    }
+  }
   return ref;
 }
 
