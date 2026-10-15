@@ -9,63 +9,54 @@ The system runs on a direct, lightweight TypeScript runtime without black-box fr
 ## System Architecture
 
 ```mermaid
-flowchart TB
-    subgraph UI_LAYER ["User Interface: Local Browser"]
-        Officer["Procurement Officer<br/>(Named Human Gate)"]
-        WebClient["React 19 / Vite Web Client<br/>(Local Port 4317)"]
+flowchart TD
+    %% 1. Officer & UI
+    subgraph S1 ["1. Officer and Web Interface"]
+        Officer["Procurement Officer<br/>(Starts audit, reviews findings)"]
+        UI["React Web Application (Port 4317)<br/>(Interactive dashboard & draft review)"]
     end
 
-    subgraph BACKEND_LAYER ["Host & Runtime: Node.js / Bun"]
-        HttpServer["Loopback HTTP Server (src/http.ts)<br/>Host & Origin Checked · Session Token"]
-        Runtime["Agent Runtime Engine (src/runtime.ts)<br/>Bounded Multi-Turn Loop · Call Budgets"]
-        HumanGate["Human Review Module (src/human-review.ts)<br/>Draft Hash Validation · Named Gate"]
-        Workspace["Workspace & Citation Engine (src/workspace.ts)<br/>SHA-256 Hashing · Line Indexing · Substantive Law Guard"]
+    %% 2. Agent Core
+    subgraph S2 ["2. Agentic Reasoning and Runtime"]
+        Runtime["Agent Runtime Engine (src/runtime.ts)<br/>Turn 1: Generates observable plan<br/>Turns 2+: Dynamically executes tools<br/>Enforces strict token and budget limits"]
+        LLM["Foundation Model (Fixed Provider)<br/>Gemini 3.5 / GPT-5.6 / Groq OSS<br/>(Reasons over evidence, selects tools)"]
     end
 
-    subgraph MODEL_LAYER ["Model Inference: Fixed Provider"]
-        ModelAdapter["Model Adapter (src/models.ts)"]
-        LLM["Gemini 3.5 Flash / GPT-5.6 / Groq OSS / Local Endpoint"]
+    %% 3. MCP Tools
+    subgraph S3 ["3. Model Context Protocol (MCP) Integration"]
+        FS_MCP["Filesystem MCP Server<br/>Tool: read_text_file<br/>(Sandboxed file access)"]
+        Law_MCP["KenyaLaw MCP Server<br/>Tools: search_legislation, get_akn_document<br/>(Statutory lookup)"]
+        Proc_MCP["Procurement MCP Server<br/>Tools: extract_requirements, check_bid, write_report<br/>(Verification engine)"]
     end
 
-    subgraph MCP_LAYER ["Model Context Protocol (MCP): Stdio Transports"]
-        ClientFS["Filesystem MCP Client"]
-        ClientLaw["KenyaLaw MCP Client"]
-        ClientProc["Procurement MCP Client"]
-        
-        ServerFS["server-filesystem (stdio child)<br/>Tool: read_text_file"]
-        ServerLaw["kenya-law-mcp (stdio child)<br/>Tools: search_legislation, get_akn_document"]
-        ServerProc["procurement-mcp (stdio child)<br/>Tools: extract_tender_requirements,<br/>check_bid_completeness, write_review_report"]
+    %% 4. Data Sources
+    subgraph S4 ["4. Ground-Truth Data Sources"]
+        TenderDocs["Tender and Bid Submissions<br/>(Specifications, supplier bids, tax certs)"]
+        KenyanLaw["KenyaLaw.org Repository<br/>(PPADA 2015 and Constitution Art. 227)"]
     end
 
-    subgraph DATA_LAYER ["Evidence & Statutory Sources"]
-        LocalInputs["Tender & Bidder Submissions<br/>(Sandboxed Text / PDF Files)"]
-        KenyaLawAPI["KenyaLaw.org Public Endpoint<br/>(Official Akoma Ntoso XML / Text)"]
-        RunStorage["Local Run Directory (runs/)<br/>State JSON · Frozen Draft · Review Record"]
+    %% 5. Review Gate & Report
+    subgraph S5 ["5. Sourced Draft and Human Review Gate"]
+        Report["Frozen Draft Review Report<br/>Verbatim quotes and line numbers<br/>Cryptographic SHA-256 hashes<br/>No automated tender awards"]
+        Gate["Human-in-the-Loop Gate (src/human-review.ts)<br/>Officer enters name and decision note:<br/>Approve Draft / Reject / Request Revision"]
     end
 
-    Officer ---|"Inputs, Consent, Review Decision"| WebClient
-    WebClient ---|"HTTP REST / Events on Loopback"| HttpServer
-    HttpServer -->|"startReview / cancelReview"| Runtime
-    HttpServer -->|"recordHumanDecision"| HumanGate
+    %% Connections
+    Officer -->|"Selects scenario, grants consent"| UI
+    UI -->|"Starts review via HTTP"| Runtime
+    Runtime <-->|"Prompts and tool calls"| LLM
 
-    Runtime ---|"Turn 1: Plan<br/>Turns 2+: Tools & Errors"| ModelAdapter
-    ModelAdapter ---|"HTTPS Inference (Explicit Consent)"| LLM
+    Runtime -->|"Read submissions"| FS_MCP
+    Runtime -->|"Query procurement law"| Law_MCP
+    Runtime -->|"Cross-check claims and compile"| Proc_MCP
 
-    Runtime -->|"Tool Dispatch"| ClientFS
-    Runtime -->|"Tool Dispatch"| ClientLaw
-    Runtime -->|"Tool Dispatch"| ClientProc
+    FS_MCP <-->|"Reads line-indexed text"| TenderDocs
+    Law_MCP <-->|"Fetches Akoma Ntoso XML"| KenyanLaw
 
-    ClientFS ---|"stdio JSON-RPC"| ServerFS
-    ClientLaw ---|"stdio JSON-RPC"| ServerLaw
-    ClientProc ---|"stdio JSON-RPC"| ServerProc
-
-    ServerFS -->|"Sandboxed Read"| LocalInputs
-    ServerLaw -->|"HTTPS AKN Retrieval"| KenyaLawAPI
-    ServerProc -->|"Requirement & Finding Verification"| Workspace
-
-    Workspace -->|"Persist State & Compute SHA-256"| RunStorage
-    HumanGate -->|"Verify Unchanged Draft Hash & Save Decision"| RunStorage
-    HumanGate -.->|"Final Sign-Off Status"| WebClient
+    Proc_MCP -->|"Compiles verified findings"| Report
+    Report -->|"Displays draft for inspection"| UI
+    UI -->|"Officer records final decision"| Gate
+    Gate -->|"Saves immutable signed record"| Report
 ```
 
 ---
