@@ -54,18 +54,34 @@ export function createLocalServer(options: {
       "default-src 'self'; object-src 'none'; frame-ancestors 'none'; base-uri 'none'",
     );
     response.setHeader("Cache-Control", "no-store");
-    const origin = `http://127.0.0.1:${request.socket.localPort}`;
-    if (
-      request.headers.host !== `127.0.0.1:${request.socket.localPort}` ||
-      (request.headers.origin && request.headers.origin !== origin)
-    ) {
+    const hostHeader = request.headers.host ?? "";
+    const isCloud = Boolean(process.env.PORT || process.env.ALLOWED_HOST);
+    const localHost = `127.0.0.1:${request.socket.localPort}`;
+    const allowedHost = process.env.ALLOWED_HOST;
+
+    const hostValid = isCloud
+      ? allowedHost
+        ? hostHeader === allowedHost
+        : Boolean(hostHeader)
+      : hostHeader === localHost;
+
+    const proto =
+      (request.headers["x-forwarded-proto"] as string) ||
+      (isCloud ? "https" : "http");
+    const expectedOrigin = isCloud
+      ? `${proto}://${hostHeader}`
+      : `http://${localHost}`;
+    const originValid =
+      !request.headers.origin || request.headers.origin === expectedOrigin;
+
+    if (!hostValid || !originValid) {
       response.writeHead(403).end("Local origin required");
       return;
     }
     if (
       request.method !== "GET" &&
       (request.headers["x-review-token"] !== token ||
-        request.headers.origin !== origin ||
+        (request.headers.origin && request.headers.origin !== expectedOrigin) ||
         request.headers["content-type"] !== "application/json")
     ) {
       response.writeHead(403).end("Local session and JSON request required");
@@ -77,7 +93,7 @@ export function createLocalServer(options: {
         .end(JSON.stringify(value));
     };
     try {
-      const url = new URL(request.url ?? "/", origin);
+      const url = new URL(request.url ?? "/", expectedOrigin);
       if (request.method === "GET" && url.pathname === "/api/config") {
         send({
           token,
